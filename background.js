@@ -685,7 +685,7 @@ async function syncAccount(overrideStrategy = null) {
     updateBadge('allgood')
     // 同步成功通知
     if (settings.notifyOnSuccess) {
-      sendNotification('书签同步成功', `新增 ${mergeStats.added}，删除 ${mergeStats.removed}，冲突 ${mergeStats.conflicts}`)
+      sendNotification(chrome.i18n.getMessage('notify_syncSuccess'), `新增 ${mergeStats.added}，删除 ${mergeStats.removed}，冲突 ${mergeStats.conflicts}`)
     }
   } catch (error) {
     console.error('[Webdav-BookmarkSync] 同步失败:', error.message)
@@ -703,7 +703,7 @@ async function syncAccount(overrideStrategy = null) {
     updateBadge('error')
     // 同步失败通知
     if (settings.notifyOnFailure) {
-      sendNotification('书签同步失败', error.message, 'error')
+      sendNotification(chrome.i18n.getMessage('notify_syncFailed'), error.message, 'error')
     }
   } finally {
     syncState.syncing = false
@@ -1961,8 +1961,8 @@ async function checkForUpdates(manual = false) {
         chrome.notifications.create('update-available', {
           type: 'basic',
           iconUrl: 'icons/icon128.png',
-          title: '极客云签有新版本可用',
-          message: `当前版本 v${currentVersion}，最新版本 v${latestVersion}，点击查看更新说明`,
+          title: chrome.i18n.getMessage('notify_updateAvailable'),
+          message: chrome.i18n.getMessage('notify_updateAvailableDesc', [currentVersion, latestVersion]),
           priority: 2,
         })
         await chrome.storage.local.set({ lastNotifiedVersion: latestVersion })
@@ -1972,8 +1972,8 @@ async function checkForUpdates(manual = false) {
       chrome.notifications.create('update-latest', {
         type: 'basic',
         iconUrl: 'icons/icon128.png',
-        title: '极客云签已是最新版本',
-        message: `当前版本 v${currentVersion}，无需更新`,
+        title: chrome.i18n.getMessage('notify_alreadyLatest'),
+        message: chrome.i18n.getMessage('notify_alreadyLatestDesc', [currentVersion]),
         priority: 0,
       })
     }
@@ -1985,7 +1985,7 @@ async function checkForUpdates(manual = false) {
       chrome.notifications.create('update-error', {
         type: 'basic',
         iconUrl: 'icons/icon128.png',
-        title: '检查更新失败',
+        title: chrome.i18n.getMessage('notify_updateCheckFailed'),
         message: e.message,
         priority: 1,
       })

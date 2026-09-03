@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>极客云签</title>
+  <title data-i18n="popup_title"></title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -538,14 +538,14 @@
 <body>
   <div class="header">
     <img src="../icons/icon32.png" alt="icon">
-    <h1>极客云签</h1>
-    <button class="refresh-btn" id="refreshBtn" title="刷新状态">
+    <h1 data-i18n="popup_title"></h1>
+    <button class="refresh-btn" id="refreshBtn" data-i18n-title="popup_refresh">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
         <polyline points="21,3 21,9 15,9"/>
       </svg>
     </button>
-    <button class="refresh-btn" id="openTabBtn" title="在新标签页打开">
+    <button class="refresh-btn" id="openTabBtn" data-i18n-title="popup_openTab">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M15 3h6v6"/>
         <path d="M10 14L21 3"/>
@@ -563,55 +563,55 @@
         <line x1="24" y1="34" x2="24" y2="42"/>
       </svg>
     </div>
-    <div class="setup-title" id="setupTitle">尚未配置 WebDAV 服务器</div>
-    <div class="setup-desc" id="setupDesc">请先完成配置才能开始同步书签</div>
-    <button class="btn-setup" id="setupBtn">立即配置</button>
+    <div class="setup-title" id="setupTitle" data-i18n="popup_notConfigured"></div>
+    <div class="setup-desc" id="setupDesc" data-i18n="popup_notConfiguredDesc"></div>
+    <button class="btn-setup" id="setupBtn" data-i18n="popup_setupNow"></button>
   </div>
 
   <!-- 同步内容（配置完成后显示） -->
   <div id="syncContent">
     <div class="status-card">
       <div class="status-row">
-        <span class="status-label">同步状态</span>
-        <span class="status-value" id="syncStatus">未同步</span>
+        <span class="status-label" data-i18n="popup_syncStatus"></span>
+        <span class="status-value" id="syncStatus" data-i18n="popup_notSynced"></span>
       </div>
       <div class="status-row">
-        <span class="status-label">上次同步</span>
-        <span class="status-value" id="lastSync">从未</span>
+        <span class="status-label" data-i18n="popup_lastSync"></span>
+        <span class="status-value" id="lastSync" data-i18n="popup_never"></span>
       </div>
       <div class="status-row">
-        <span class="status-label">错误信息</span>
-        <span class="status-value" id="errorMsg">无</span>
+        <span class="status-label" data-i18n="popup_errorMsg"></span>
+        <span class="status-value" id="errorMsg" data-i18n="popup_none"></span>
       </div>
     </div>
 
     <div class="stats-card" id="statsCard" style="display:none;">
-      <div class="stats-title">本次同步结果</div>
+      <div class="stats-title" data-i18n="popup_syncResult"></div>
       <div class="stats-row">
         <div class="stat-item">
           <span class="stat-num" id="statAdded">0</span>
-          <span class="stat-label">新增</span>
+          <span class="stat-label" data-i18n="popup_added"></span>
         </div>
         <div class="stat-item">
           <span class="stat-num" id="statRemoved">0</span>
-          <span class="stat-label">删除</span>
+          <span class="stat-label" data-i18n="popup_deleted"></span>
         </div>
         <div class="stat-item">
           <span class="stat-num" id="statConflicts">0</span>
-          <span class="stat-label">冲突</span>
+          <span class="stat-label" data-i18n="popup_conflicts"></span>
         </div>
       </div>
       <div class="conflict-detail" id="conflictDetail">
         <div id="conflictList"></div>
-        <div class="conflict-hint">冲突时默认保留本地标题，服务器标题仅作参考</div>
+        <div class="conflict-hint" data-i18n="popup_conflictHint"></div>
       </div>
     </div>
 
-    <button class="btn-sync" id="syncBtn">立即同步</button>
+    <button class="btn-sync" id="syncBtn" data-i18n="popup_syncNow"></button>
 
     <!-- 高级同步 -->
     <button class="advanced-toggle" id="advancedToggle">
-      <span>高级同步</span>
+      <span data-i18n="popup_advancedSync"></span>
       <svg class="toggle-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;">
         <polyline points="6,9 12,15 18,9"/>
       </svg>
@@ -627,8 +627,8 @@
             </svg>
           </span>
           <span class="strategy-text">
-            <span class="strategy-name">本地覆盖云端</span>
-            <span class="strategy-desc">用本地书签替换云端</span>
+            <span class="strategy-name" data-i18n="popup_localOverCloud"></span>
+            <span class="strategy-desc" data-i18n="popup_localOverCloudDesc"></span>
           </span>
         </button>
         <button class="strategy-item" id="strategyServer" data-strategy="server">
@@ -640,8 +640,8 @@
             </svg>
           </span>
           <span class="strategy-text">
-            <span class="strategy-name">云端覆盖本地</span>
-            <span class="strategy-desc">用云端书签替换本地</span>
+            <span class="strategy-name" data-i18n="popup_cloudOverLocal"></span>
+            <span class="strategy-desc" data-i18n="popup_cloudOverLocalDesc"></span>
           </span>
         </button>
         <button class="strategy-item strategy-recommend" id="strategyMerge" data-strategy="merge">
@@ -652,24 +652,25 @@
             </svg>
           </span>
           <span class="strategy-text">
-            <span class="strategy-name">多设备智能同步</span>
-            <span class="strategy-desc">基于变更日志，智能合并</span>
+            <span class="strategy-name" data-i18n="popup_smartSync"></span>
+            <span class="strategy-desc" data-i18n="popup_smartSyncDesc"></span>
           </span>
-          <span class="strategy-badge">默认</span>
+          <span class="strategy-badge" data-i18n="popup_default"></span>
         </button>
       </div>
       <div class="advanced-row pause-row">
         <label class="pause-label" for="pauseSync">
           <input type="checkbox" id="pauseSync">
-          <span>暂停自动同步</span>
+          <span data-i18n="popup_pauseSync"></span>
         </label>
       </div>
-      <p class="advanced-hint">点击上方策略立即执行一次同步。暂停后定时/启动/变更同步停止，手动同步仍可用。</p>
+      <p class="advanced-hint" data-i18n="popup_advancedHint"></p>
     </div>
 
-    <a href="#" class="settings-link" id="settingsLink">打开设置页面</a>
+    <a href="#" class="settings-link" id="settingsLink" data-i18n="popup_openSettings"></a>
   </div>
 
+  <script src="../common/i18n.js"></script>
   <script src="../common/darkmode.js"></script>
   <script src="popup.js"></script>
 </body>

@@ -11,6 +11,9 @@ function notifyOptions(title, message, type = 'info') {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // 应用 i18n 翻译
+  applyI18n()
+
   // 加载文件夹列表
   const folders = await chrome.runtime.sendMessage({ type: 'getFolders' })
   const select = document.getElementById('localRoot')

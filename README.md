@@ -6,6 +6,8 @@
 
 **通过 WebDAV 多设备智能同步浏览器书签的 Chrome 扩展**
 
+[English](README.en.md) | 中文
+
 [![version](https://img.shields.io/badge/version-1.0.4-green)](https://github.com/Kepsilent/GeekMark/releases)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![platform](https://img.shields.io/badge/platform-Chrome%20MV3-orange)]()

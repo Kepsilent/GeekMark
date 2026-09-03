@@ -6,6 +6,9 @@
 let pollTimer = null
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // 应用 i18n 翻译
+  applyI18n()
+
   // 加载状态
   loadState()
 
@@ -48,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('syncBtn').addEventListener('click', async () => {
     const btn = document.getElementById('syncBtn')
     btn.disabled = true
-    btn.textContent = '同步中...'
+    btn.textContent = t('popup_syncing') + '...'
     btn.classList.add('syncing')
 
     try {
@@ -63,12 +66,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('同步请求失败:', e)
       const errorMsgEl = document.getElementById('errorMsg')
       if (errorMsgEl) {
-        errorMsgEl.textContent = '通信失败，请刷新重试'
+        errorMsgEl.textContent = t('popup_commFailed')
         errorMsgEl.className = 'status-value error'
       }
     } finally {
       btn.disabled = false
-      btn.textContent = '立即同步'
+      btn.textContent = t('popup_syncNow')
       btn.classList.remove('syncing')
       loadState()
     }
@@ -90,9 +93,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 三种同步策略按钮
   const strategyButtons = [
-    { id: 'strategyLocal', strategy: 'local', name: '本地覆盖云端', confirm: '确定要本地覆盖云端吗？本地书签将覆盖云端书签，云端原有内容会被替换。', status: '上传中...' },
-    { id: 'strategyServer', strategy: 'server', name: '云端覆盖本地', confirm: '确定要云端覆盖本地吗？云端书签将覆盖本地书签，同步前会自动备份本地书签。', status: '下载中...' },
-    { id: 'strategyMerge', strategy: 'merge', name: '多设备智能同步', confirm: null, status: '同步中...' },
+    { id: 'strategyLocal', strategy: 'local', name: t('popup_localOverCloud'), confirm: t('popup_confirmLocalOverCloud'), status: t('popup_uploading') + '...' },
+    { id: 'strategyServer', strategy: 'server', name: t('popup_cloudOverLocal'), confirm: t('popup_confirmCloudOverLocal'), status: t('popup_downloading') + '...' },
+    { id: 'strategyMerge', strategy: 'merge', name: t('popup_smartSync'), confirm: null, status: t('popup_syncing') + '...' },
   ]
   for (const btn of strategyButtons) {
     document.getElementById(btn.id).addEventListener('click', async () => {
@@ -225,11 +228,11 @@ function showSetupCard(show, isFirstTime = false) {
     refreshBtn.style.display = 'none' // 未配置时没有状态可刷新，隐藏按钮
 
     if (isFirstTime) {
-      setupTitle.textContent = '初次使用，欢迎！'
-      setupDesc.textContent = '请先配置 WebDAV 服务器信息（支持 123 云盘、坚果云等），配置完成后即可开始同步书签'
+      setupTitle.textContent = t('popup_firstUse')
+      setupDesc.textContent = t('popup_firstUseDesc')
     } else {
-      setupTitle.textContent = '尚未配置 WebDAV 服务器'
-      setupDesc.textContent = '配置不完整，无法同步。请点击下方按钮完成配置'
+      setupTitle.textContent = t('popup_notConfigured')
+      setupDesc.textContent = t('popup_configIncomplete')
     }
   } else {
     setupCard.style.display = 'none'
@@ -264,9 +267,9 @@ async function loadState() {
     document.getElementById('pauseSync').checked = paused === true
     const syncBtn = document.getElementById('syncBtn')
     if (paused && !state.syncing) {
-      syncBtn.textContent = '已暂停，点击手动同步'
+      syncBtn.textContent = t('popup_pausedClick')
     } else if (!state.syncing) {
-      syncBtn.textContent = '立即同步'
+      syncBtn.textContent = t('popup_syncNow')
     }
 
     const statusEl = document.getElementById('syncStatus')
@@ -275,12 +278,12 @@ async function loadState() {
 
     if (state.syncing) {
       const phaseMap = {
-        downloading: '下载中...',
-        merging: '合并中...',
-        applying: '应用变更中...',
-        uploading: '上传中...',
+        downloading: t('popup_downloading') + '...',
+        merging: t('popup_merging') + '...',
+        applying: t('popup_applying') + '...',
+        uploading: t('popup_uploading') + '...',
       }
-      statusEl.textContent = phaseMap[state.currentPhase] || '同步中...'
+      statusEl.textContent = phaseMap[state.currentPhase] || t('popup_syncing') + '...'
       statusEl.className = 'status-value syncing'
       // 同步中：启动轮询，同步完成后自动刷新
       startPolling()
@@ -288,13 +291,13 @@ async function loadState() {
       // 不在同步：停止轮询
       stopPolling()
       if (state.lastError && !state.lastError.includes('尚未配置')) {
-        statusEl.textContent = '同步失败'
+        statusEl.textContent = t('popup_syncFailed')
         statusEl.className = 'status-value error'
       } else if (state.lastSync) {
-        statusEl.textContent = '已同步'
+        statusEl.textContent = t('popup_synced')
         statusEl.className = 'status-value success'
       } else {
-        statusEl.textContent = '未同步'
+        statusEl.textContent = t('popup_notSynced')
         statusEl.className = 'status-value'
       }
     }
@@ -303,14 +306,14 @@ async function loadState() {
       const date = new Date(state.lastSync)
       lastSyncEl.textContent = formatTime(date)
     } else {
-      lastSyncEl.textContent = '从未'
+      lastSyncEl.textContent = t('popup_never')
     }
 
     if (state.lastError && !state.lastError.includes('尚未配置')) {
       errorMsgEl.textContent = state.lastError
       errorMsgEl.className = 'status-value error'
     } else {
-      errorMsgEl.textContent = '无'
+      errorMsgEl.textContent = t('popup_none')
       errorMsgEl.className = 'status-value'
     }
 
@@ -330,15 +333,15 @@ async function loadState() {
       const conflicts = state.lastConflicts || []
       if (conflicts.length > 0) {
         conflictNumEl.classList.add('clickable')
-        conflictNumEl.title = '点击查看冲突详情'
+        conflictNumEl.title = t('popup_clickConflictDetail')
 
         // 渲染冲突列表
         conflictList.innerHTML = conflicts.map(c => `
           <div class="conflict-item">
             <div class="conflict-url">${escapeHtml(c.url)}</div>
             <div class="conflict-titles">
-              <div class="conflict-local">本地：${escapeHtml(c.localTitle)}</div>
-              <div class="conflict-server">服务器：${escapeHtml(c.serverTitle)}</div>
+              <div class="conflict-local">${t('popup_local')}：${escapeHtml(c.localTitle)}</div>
+              <div class="conflict-server">${t('popup_server')}：${escapeHtml(c.serverTitle)}</div>
             </div>
           </div>
         `).join('')
@@ -362,11 +365,11 @@ function formatTime(date) {
   const diff = now - date
 
   if (diff < 60000) {
-    return '刚刚'
+    return t('popup_justNow')
   } else if (diff < 3600000) {
-    return Math.floor(diff / 60000) + ' 分钟前'
+    return Math.floor(diff / 60000) + t('popup_minutesAgo')
   } else if (diff < 86400000) {
-    return Math.floor(diff / 3600000) + ' 小时前'
+    return Math.floor(diff / 3600000) + t('popup_hoursAgo')
   } else {
     return date.toLocaleString('zh-CN')
   }
