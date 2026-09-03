@@ -58,7 +58,7 @@ Specially adapted for Chinese WebDAV services like 123 Pan and Jianguoyun. Refac
 - **Config export/import**: One-click export config JSON, easy backup and migration
 - **WebDAV folder isolation**: Bookmark files stored in `Bookmarks` folder (customizable name), auto-created, duplicate name check
 - **Test connection**: Read-only probe, no file creation, verifies server reachability and auth, result shown in status bar below
-- **Mobile adaptation**: Supports Quetta (recommended), Kiwi and other mobile browsers, responsive popup and settings layout
+- **Mobile adaptation**: [Quetta](https://quettabrowser.com/) browser recommended first (supports Chrome extensions, excellent experience), also compatible with Kiwi and other mobile browsers, responsive popup and settings layout
 - **Dark mode**: Follow system or manual toggle (auto/light/dark)
 - **Open in new tab**: Popup can be opened full-width in a new tab
 - **Pause sync**: One-click pause auto-sync, manual sync still works
@@ -93,7 +93,7 @@ Also supports Kiwi Browser and other Android browsers that support Chrome MV3 ex
 **Method 1: CRX file (recommended)**
 
 1. Go to [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) and download the latest `GeekMark-vx.x.x.crx`
-2. Open Quetta / Kiwi browser, enter `chrome://extensions/`
+2. Open [Quetta](https://quettabrowser.com/) browser, enter `chrome://extensions/`
 3. Enable「Developer mode」
 4. Click「Load packed extension」(or「+ Install from .crx/.zip」), select the downloaded .crx file
 5. Extension loaded successfully
