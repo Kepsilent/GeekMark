@@ -11,6 +11,8 @@ function notifyOptions(title, message, type = 'info') {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // 初始化 i18n（加载用户设置的语言）
+  await initI18n()
   // 应用 i18n 翻译
   applyI18n()
 
@@ -47,6 +49,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('darkMode').value = settings.darkMode || 'auto'
     document.getElementById('checkUpdatesEnabled').checked = settings.checkUpdatesEnabled !== false
     applyDarkMode(settings.darkMode || 'auto')
+    // 加载语言设置
+    const langResult = await chrome.storage.local.get('language')
+    document.getElementById('languageSelect').value = langResult.language || ''
     // 如果已有密钥，显示确认密码框并填充
     if (settings.encryptionPassphrase) {
       document.getElementById('confirmPassphraseGroup').style.display = 'block'
@@ -206,6 +211,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('chooseLocal').addEventListener('click', () => runFirstSync('local'))
   document.getElementById('chooseServer').addEventListener('click', () => runFirstSync('server'))
   document.getElementById('chooseMerge').addEventListener('click', () => runFirstSync('merge'))
+
+  // 语言切换（立即生效）
+  document.getElementById('languageSelect').addEventListener('change', async (e) => {
+    const lang = e.target.value
+    await setLanguage(lang || null)
+    showStatus(lang ? '语言已切换，立即生效' : '已恢复跟随系统语言', 'success')
+  })
 
   // 123 云盘快速填充
   document.getElementById('fill123Btn').addEventListener('click', () => {

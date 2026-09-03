@@ -64,8 +64,10 @@
 ## 八、联系我们
 
 如果您对本隐私政策有任何疑问，可以通过以下方式联系：
-- GitHub 项目仓库提交 Issue
-- 扩展设置页面中的反馈渠道
+
+- **邮箱**：elegant_geek@163.com
+- **GitHub 项目**：https://github.com/Kepsilent/GeekMark
+- **提交 Issue**：https://github.com/Kepsilent/GeekMark/issues
 
 ## 九、政策更新
 

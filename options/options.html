@@ -480,6 +480,15 @@
         <p class="hint">选择界面显示模式，"跟随系统"会自动检测系统深色模式设置。</p>
       </div>
       <div class="form-group" style="margin-top:12px;">
+        <label>语言</label>
+        <select id="languageSelect" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+          <option value="">跟随系统</option>
+          <option value="zh_CN">简体中文</option>
+          <option value="en">English</option>
+        </select>
+        <p class="hint">选择界面显示语言，"跟随系统"会自动检测浏览器语言。切换后立即生效。</p>
+      </div>
+      <div class="form-group" style="margin-top:12px;">
         <label>当前设备 ID</label>
         <div style="display:flex;gap:8px;align-items:center;">
           <input type="text" id="deviceIdDisplay" readonly style="flex:1;background:#f5f5f5;color:#666;font-family:monospace;font-size:12px;" placeholder="加载中...">
@@ -558,89 +567,24 @@
       <p style="font-size:13px;color:#666;margin-bottom:16px;">
         <strong>本扩展不收集任何数据，不连接任何第三方服务器，您的书签数据完全由您自己掌控。</strong>
       </p>
-      <details style="margin-top:12px;">
-        <summary style="cursor:pointer;font-size:14px;color:#2196F3;font-weight:500;">查看完整隐私政策</summary>
-        <div id="privacyContent" style="margin-top:16px;font-size:13px;line-height:1.8;color:#444;max-height:400px;overflow-y:auto;padding-right:8px;">
-          <h3 style="font-size:15px;margin:16px 0 8px;">一、我们是谁</h3>
-          <p>极客云签 (GeekMark) 是一款开源的浏览器书签同步扩展，帮助用户通过 WebDAV 协议在多设备间同步浏览器书签。本扩展由开发者独立维护，不隶属于任何公司或组织。</p>
-
-          <h3 style="font-size:15px;margin:16px 0 8px;">二、我们收集哪些数据</h3>
-          <p><strong>我们不收集任何用户数据。</strong></p>
-          <p>本扩展不会：</p>
-          <ul style="margin:8px 0;padding-left:20px;">
-            <li>收集您的书签内容</li>
-            <li>收集您的浏览历史</li>
-            <li>收集您的个人信息</li>
-            <li>收集您的设备信息</li>
-            <li>向任何第三方服务器发送数据</li>
-            <li>使用任何分析或统计工具</li>
-            <li>显示任何广告</li>
-          </ul>
-
-          <h3 style="font-size:15px;margin:16px 0 8px;">三、您的数据存储在哪里</h3>
-          <p>您的所有数据仅存储在以下两个位置：</p>
-          <ol style="margin:8px 0;padding-left:20px;">
-            <li><strong>您的本地设备</strong>：通过浏览器的 chrome.storage API 存储配置信息（WebDAV 地址、用户名、密码、同步设置等），这些数据仅保存在您的设备上。</li>
-            <li><strong>您自己的 WebDAV 服务器</strong>：书签数据通过 WebDAV 协议直接上传到您自己配置的 WebDAV 服务器（如 123 云盘、坚果云等），我们不拥有、不访问、不存储这些数据。</li>
-          </ol>
-          <p><strong>我们没有任何服务器，也没有任何云端数据库。</strong></p>
-
-          <h3 style="font-size:15px;margin:16px 0 8px;">四、数据如何传输</h3>
-          <ul style="margin:8px 0;padding-left:20px;">
-            <li>本扩展直接与您配置的 WebDAV 服务器通信，<strong>不经过任何中间服务器</strong>。</li>
-            <li>传输过程使用 HTTPS 加密（取决于您的 WebDAV 服务器是否支持）。</li>
-            <li>如果您启用了端到端加密功能，书签数据在上传前会在您的本地设备上使用 AES-256-GCM 算法加密，即使 WebDAV 服务器被攻破，攻击者也无法读取您的书签内容。</li>
-            <li>加密密钥仅保存在您的本地设备上，不会上传到任何地方。</li>
-          </ul>
-
-          <h3 style="font-size:15px;margin:16px 0 8px;">五、权限说明</h3>
-          <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;">
-            <tr style="background:#f5f5f5;">
-              <th style="border:1px solid #ddd;padding:6px 8px;text-align:left;">权限</th>
-              <th style="border:1px solid #ddd;padding:6px 8px;text-align:left;">用途</th>
-            </tr>
-            <tr>
-              <td style="border:1px solid #ddd;padding:6px 8px;">bookmarks</td>
-              <td style="border:1px solid #ddd;padding:6px 8px;">读取和修改浏览器书签，这是本扩展的核心功能</td>
-            </tr>
-            <tr>
-              <td style="border:1px solid #ddd;padding:6px 8px;">storage</td>
-              <td style="border:1px solid #ddd;padding:6px 8px;">在您的本地设备上保存配置信息和同步状态</td>
-            </tr>
-            <tr>
-              <td style="border:1px solid #ddd;padding:6px 8px;">alarms</td>
-              <td style="border:1px solid #ddd;padding:6px 8px;">实现定时同步功能</td>
-            </tr>
-            <tr>
-              <td style="border:1px solid #ddd;padding:6px 8px;">notifications</td>
-              <td style="border:1px solid #ddd;padding:6px 8px;">在同步成功或失败时向您发送桌面通知</td>
-            </tr>
-            <tr>
-              <td style="border:1px solid #ddd;padding:6px 8px;">host_permissions</td>
-              <td style="border:1px solid #ddd;padding:6px 8px;">允许扩展访问您配置的任意 WebDAV 服务器地址。本扩展仅访问您明确配置的 WebDAV 服务器，不会访问其他网站</td>
-            </tr>
-          </table>
-
-          <h3 style="font-size:15px;margin:16px 0 8px;">六、数据删除</h3>
-          <p>您可以随时：</p>
-          <ul style="margin:8px 0;padding-left:20px;">
-            <li>在扩展设置中清除配置数据</li>
-            <li>在 WebDAV 服务器上删除书签文件和变更日志文件</li>
-            <li>卸载扩展，所有本地数据将被浏览器自动清除</li>
-          </ul>
-
-          <h3 style="font-size:15px;margin:16px 0 8px;">七、变更日志</h3>
-          <p>本扩展会在您的 WebDAV 服务器上创建一个 changes.json 文件，用于记录书签的增删改操作时间戳，实现多设备智能同步。该文件仅包含书签的 URL、标题、操作类型和时间戳，不包含任何个人信息。您可以随时删除该文件，不影响书签数据本身。</p>
-
-          <h3 style="font-size:15px;margin:16px 0 8px;">八、联系我们</h3>
-          <p>如果您对本隐私政策有任何疑问，可以通过 GitHub 项目仓库提交 Issue。</p>
-
-          <p style="margin-top:20px;padding:12px;background:#f0f9ff;border-radius:8px;font-size:13px;">
-            <strong>总结：本扩展不收集任何数据，不连接任何第三方服务器，您的书签数据完全由您自己掌控。</strong>
-          </p>
-          <p style="font-size:11px;color:#999;margin-top:12px;">最后更新日期：2026年9月3日</p>
-        </div>
-      </details>
+      <div style="background:#f8f9fa;border-radius:8px;padding:16px;margin-bottom:16px;">
+        <p style="font-size:13px;color:#444;line-height:1.8;margin:0 0 12px;">
+          <strong>核心原则：</strong><br>
+          • 不收集任何用户数据<br>
+          • 不连接任何第三方服务器<br>
+          • 不发送任何遥测信息<br>
+          • 所有数据仅存储在本地设备和您自己的 WebDAV 服务器上<br>
+          • 端到端加密可选，密钥仅保存在本地
+        </p>
+        <p style="font-size:13px;color:#444;line-height:1.8;margin:0 0 12px;">
+          <strong>联系方式：</strong><br>
+          • 邮箱：elegant_geek@163.com<br>
+          • GitHub：https://github.com/Kepsilent/GeekMark
+        </p>
+      </div>
+      <a href="https://github.com/Kepsilent/GeekMark/blob/master/privacy.md" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 20px;background:#2196F3;color:#fff;text-decoration:none;border-radius:8px;font-size:14px;font-weight:500;transition:background 0.2s;" onmouseover="this.style.background='#1976D2'" onmouseout="this.style.background='#2196F3'">
+        在 GitHub 查看完整隐私政策 →
+      </a>
     </div>
   </div>
 

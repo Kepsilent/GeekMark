@@ -6,6 +6,8 @@
 let pollTimer = null
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // 初始化 i18n（加载用户设置的语言）
+  await initI18n()
   // 应用 i18n 翻译
   applyI18n()
 
