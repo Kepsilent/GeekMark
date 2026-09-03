@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 <img src="icons/icon128.png" alt="GeekMark" width="80" height="80">
 
@@ -58,7 +58,7 @@ Specially adapted for Chinese WebDAV services like 123 Pan and Jianguoyun. Refac
 - **Config export/import**: One-click export config JSON, easy backup and migration
 - **WebDAV folder isolation**: Bookmark files stored in `Bookmarks` folder (customizable name), auto-created, duplicate name check
 - **Test connection**: Read-only probe, no file creation, verifies server reachability and auth, result shown in status bar below
-- **Mobile adaptation**: [Quetta](https://quettabrowser.com/) browser recommended first (supports Chrome extensions, excellent experience), also compatible with Kiwi and other mobile browsers, responsive popup and settings layout
+- **Mobile adaptation**: [Quetta](https://www.quetta.net/) browser recommended first (supports Chrome extensions, excellent experience), also compatible with Kiwi and other mobile browsers, responsive popup and settings layout
 - **Dark mode**: Follow system or manual toggle (auto/light/dark)
 - **Open in new tab**: Popup can be opened full-width in a new tab
 - **Pause sync**: One-click pause auto-sync, manual sync still works
@@ -86,14 +86,14 @@ Specially adapted for Chinese WebDAV services like 123 Pan and Jianguoyun. Refac
 
 ### 📱 Mobile (Android)
 
-**Recommended browser: [Quetta](https://quettabrowser.com/)** (supports Chrome extensions, excellent experience)
+**Recommended browser: [Quetta](https://www.quetta.net/)** (supports Chrome extensions, excellent experience)
 
 Also supports Kiwi Browser and other Android browsers that support Chrome MV3 extensions.
 
 **Method 1: CRX file (recommended)**
 
 1. Go to [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) and download the latest `GeekMark-vx.x.x.crx`
-2. Open [Quetta](https://quettabrowser.com/) browser, enter `chrome://extensions/`
+2. Open [Quetta](https://www.quetta.net/) browser, enter `chrome://extensions/`
 3. Enable「Developer mode」
 4. Click「Load packed extension」(or「+ Install from .crx/.zip」), select the downloaded .crx file
 5. Extension loaded successfully
@@ -102,7 +102,7 @@ Also supports Kiwi Browser and other Android browsers that support Chrome MV3 ex
 
 1. Go to [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) and download the latest `GeekMark-vx.x.x.zip`
 2. Extract to a phone folder
-3. Open [Quetta](https://quettabrowser.com/) browser, enter `chrome://extensions/`
+3. Open [Quetta](https://www.quetta.net/) browser, enter `chrome://extensions/`
 4. Enable「Developer mode」
 5. Click「Load unpacked」, select the extracted folder
 6. Extension loaded successfully

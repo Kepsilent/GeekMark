@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 <img src="icons/icon128.png" alt="极客云签" width="80" height="80">
 
@@ -58,7 +58,7 @@
 - **配置导出/导入**：一键导出配置 JSON，方便备份和迁移
 - **WebDAV 文件夹隔离**：书签文件存放在 `Bookmarks` 文件夹中（可自定义名称），自动创建，检查重名
 - **测试连接**：只读探测，不创建文件，验证服务器可达性和认证，结果在页面下方提示条显示
-- **移动端适配**：首推 [Quetta](https://quettabrowser.com/) 浏览器（支持 Chrome 扩展，体验优秀），也兼容 Kiwi 等其他移动端浏览器，弹窗和设置页面响应式布局
+- **移动端适配**：首推 [Quetta](https://www.quetta.net/) 浏览器（支持 Chrome 扩展，体验优秀），也兼容 Kiwi 等其他移动端浏览器，弹窗和设置页面响应式布局
 - **深色模式**：跟随系统或手动切换（自动/浅色/深色）
 - **新标签页打开**：popup 可在新标签页中全宽打开
 - **暂停同步**：一键暂停自动同步，手动同步仍可触发
@@ -86,14 +86,14 @@
 
 ### 📱 手机版（Android）
 
-**首推浏览器：[Quetta](https://quettabrowser.com/)**（支持 Chrome 扩展，体验优秀）
+**首推浏览器：[Quetta](https://www.quetta.net/)**（支持 Chrome 扩展，体验优秀）
 
 也支持 Kiwi Browser 等其他支持 Chrome MV3 扩展的安卓浏览器。
 
 **安装方式一：CRX 文件（推荐）**
 
 1. 前往 [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) 下载最新版本的 `GeekMark-vx.x.x.crx` 文件
-2. 打开 [Quetta](https://quettabrowser.com/) 浏览器，地址栏输入 `chrome://extensions/`
+2. 打开 [Quetta](https://www.quetta.net/) 浏览器，地址栏输入 `chrome://extensions/`
 3. 开启「开发者模式」
 4. 点击「加载已打包的扩展程序」（或「+ 从 .crx/.zip 安装」），选择下载的 .crx 文件
 5. 扩展加载成功
@@ -102,7 +102,7 @@
 
 1. 前往 [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) 下载最新版本的 `GeekMark-vx.x.x.zip` 压缩包
 2. 解压到手机文件夹
-3. 打开 [Quetta](https://quettabrowser.com/) 浏览器，地址栏输入 `chrome://extensions/`
+3. 打开 [Quetta](https://www.quetta.net/) 浏览器，地址栏输入 `chrome://extensions/`
 4. 开启「开发者模式」
 5. 点击「加载已解压的扩展程序」，选择解压后的文件夹
 6. 扩展加载成功
@@ -245,7 +245,7 @@ A: 密码存储在 `chrome.storage.local` 中，仅保存在当前设备。Chrom
 
 ### Q: 支持 Firefox / Edge 吗？
 
-A: 本扩展使用 Chrome Extension MV3 API，Edge 浏览器可以直接加载使用。Firefox 需要适配其 MV3 实现，暂未测试。移动端首推 [Quetta](https://quettabrowser.com/) 浏览器，也支持 Kiwi Browser 等。
+A: 本扩展使用 Chrome Extension MV3 API，Edge 浏览器可以直接加载使用。Firefox 需要适配其 MV3 实现，暂未测试。移动端首推 [Quetta](https://www.quetta.net/) 浏览器，也支持 Kiwi Browser 等。
 
 ### Q: 这个扩展收集我的数据吗？
 
