@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>极客云签 设置</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .card h2 {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #4A90D9;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .checkbox-group:last-child {
+      margin-bottom: 0;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    .checkbox-group label {
+      margin-bottom: 0;
+      cursor: pointer;
+      font-weight: 400;
+    }
+    .checkbox-group .hint {
+      font-size: 12px;
+      color: #999;
+      margin-left: 26px;
+      margin-top: -8px;
+      margin-bottom: 12px;
+    }
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: #4A90D9;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #3A7BC8;
+    }
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #333;
+    }
+    .btn-secondary:hover {
+      background: #d0d0d0;
+    }
+    .status {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+    }
+    .status.success {
+      background: #E8F5E9;
+      color: #2E7D32;
+      display: block;
+    }
+    .status.error {
+      background: #FFEBEE;
+      color: #C62828;
+      display: block;
+    }
+    .status.loading {
+      background: #E3F2FD;
+      color: #1565C0;
+      display: block;
+    }
+
+    /* 首次同步选择模态框 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.show {
+      display: flex;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      width: 480px;
+      max-width: 90vw;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .first-sync-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .first-sync-option:hover {
+      border-color: #4A90D9;
+      background: #f5f9ff;
+    }
+    .first-sync-option.recommended {
+      border-color: #4CAF50;
+      background: #f1f8f2;
+    }
+    .first-sync-option.recommended:hover {
+      border-color: #388E3C;
+      background: #e8f5e9;
+    }
+    .option-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4CAF50;
+    }
+    .option-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+    .option-content {
+      flex: 1;
+    }
+    .option-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+    }
+    .option-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+    .recommend-badge {
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      background: #4CAF50;
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 600px) {
+      body {
+        padding: 0;
+      }
+      .container {
+        max-width: 100%;
+        padding: 16px;
+        margin: 0;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .header h1 {
+        font-size: 18px;
+      }
+      .card {
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      .card h2 {
+        font-size: 16px;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        font-size: 16px; /* 防止 iOS 缩放 */
+        padding: 12px;
+        min-height: 44px;
+      }
+      .button-group {
+        flex-direction: column;
+      }
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        padding: 14px;
+        font-size: 15px;
+        min-height: 48px;
+      }
+      .checkbox-group {
+        padding: 10px 0;
+        min-height: 44px;
+        align-items: center;
+      }
+      .checkbox-group label {
+        font-size: 15px;
+      }
+      .modal {
+        width: 95vw;
+        padding: 20px;
+        max-height: 90vh;
+      }
+      .first-sync-option {
+        padding: 14px;
+        min-height: 60px;
+      }
+      .option-title {
+        font-size: 15px;
+      }
+      .option-desc {
+        font-size: 13px;
+      }
+      .option-icon {
+        font-size: 24px;
+      }
+    }
+
+    /* 深色模式（跟随系统） */
+    @media (prefers-color-scheme: dark) {
+      body { background: #1a1a1a; color: #e0e0e0; }
+      .card { background: #2a2a2a; border-color: #3a3a3a; }
+      .card h2 { color: #e0e0e0; }
+      .header h1 { color: #e0e0e0; }
+      .form-group label { color: #ccc; }
+      .form-group input, .form-group select, .form-group textarea {
+        background: #333; border-color: #444; color: #e0e0e0;
+      }
+      .hint { color: #888; }
+      .checkbox-group label { color: #ccc; }
+      .btn-primary { background: #4CAF50; }
+      .btn-primary:hover { background: #45a049; }
+      .btn-secondary { background: #333; border-color: #444; color: #e0e0e0; }
+      .btn-secondary:hover { background: #3a3a3a; }
+      .status { background: #2a2a2a; }
+      .status.success { color: #4CAF50; }
+      .status.error { color: #F44336; }
+      .status.loading { color: #2196F3; }
+      .modal { background: #2a2a2a; border-color: #3a3a3a; }
+      .modal h2 { color: #e0e0e0; }
+      .first-sync-option { background: #333; border-color: #444; }
+      .first-sync-option:hover { border-color: #4CAF50; }
+      .option-title { color: #e0e0e0; }
+      .option-desc { color: #999; }
+      .log-item { background: #333; border-color: #444; }
+      .log-success { color: #4CAF50; }
+      .log-error { color: #F44336; }
+      .backup-item { background: #333; border-color: #444; }
+    }
+
+    /* 手动深色模式覆盖 */
+    body.dark-mode { background: #1a1a1a; color: #e0e0e0; }
+    body.dark-mode .card { background: #2a2a2a; border-color: #3a3a3a; }
+    body.dark-mode .card h2 { color: #e0e0e0; }
+    body.dark-mode .header h1 { color: #e0e0e0; }
+    body.dark-mode .form-group label { color: #ccc; }
+    body.dark-mode .form-group input,
+    body.dark-mode .form-group select,
+    body.dark-mode .form-group textarea { background: #333; border-color: #444; color: #e0e0e0; }
+    body.dark-mode .hint { color: #888; }
+    body.dark-mode .checkbox-group label { color: #ccc; }
+    body.dark-mode .btn-secondary { background: #333; border-color: #444; color: #e0e0e0; }
+    body.dark-mode .status { background: #2a2a2a; }
+    body.dark-mode .modal { background: #2a2a2a; border-color: #3a3a3a; }
+    body.dark-mode .modal h2 { color: #e0e0e0; }
+    body.dark-mode .first-sync-option { background: #333; border-color: #444; }
+    body.dark-mode .option-title { color: #e0e0e0; }
+    body.dark-mode .option-desc { color: #999; }
+    body.dark-mode .log-item { background: #333; border-color: #444; }
+    body.dark-mode .backup-item { background: #333; border-color: #444; }
+    body.dark-mode .btn-primary { background: #4CAF50; color: #fff; }
+    body.dark-mode .btn-primary:hover { background: #45a049; }
+    body.dark-mode .btn-secondary:hover { background: #3a3a3a; }
+    body.dark-mode .first-sync-option:hover { background: #3a3a3a; border-color: #555; }
+    body.dark-mode .first-sync-option.recommended { background: #1a2e1a; border-color: #4CAF50; }
+    body.dark-mode .recommend-badge { background: #4CAF50; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>极客云签</h1>
+    <p class="subtitle">通过 WebDAV 同步浏览器书签</p>
+
+    <!-- 服务器设置 -->
+    <div class="card">
+      <h2>服务器设置</h2>
+      <div class="form-group">
+        <label for="url">WebDAV URL</label>
+        <input type="text" id="url" placeholder="https://webdav.123pan.cn/webdav">
+        <div style="margin-top:8px;display:flex;gap:8px;">
+          <button type="button" class="btn-secondary" style="padding:6px 12px;font-size:12px;" id="fill123Btn">填充 123 云盘</button>
+          <button type="button" class="btn-secondary" style="padding:6px 12px;font-size:12px;" id="fillJianguoyunBtn">填充坚果云</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="username">用户名</label>
+        <input type="text" id="username" placeholder="你的用户名/手机号">
+      </div>
+      <div class="form-group">
+        <label for="password">密码</label>
+        <input type="password" id="password" placeholder="你的密码">
+      </div>
+      <div class="form-group">
+        <label for="bookmark_file">书签文件路径</label>
+        <input type="text" id="bookmark_file" placeholder="bookmarks.html">
+      </div>
+      <div class="form-group">
+        <label for="webdav_folder">WebDAV 文件夹名称</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="webdav_folder" placeholder="Bookmarks" style="flex:1;">
+          <button type="button" id="checkFolderBtn" style="padding:8px 16px;background:#f0f0f0;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:13px;white-space:nowrap;">检查文件夹</button>
+          <button type="button" id="testBtn" style="padding:8px 16px;background:#f0f0f0;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:13px;white-space:nowrap;">测试连接</button>
+        </div>
+        <p class="hint" style="margin-left:0;margin-top:4px;">书签文件会存放在 WebDAV 目录下的此文件夹中，默认以插件名命名，可自定义。点击"检查文件夹"可确认该名称是否已存在，点击"测试连接"可验证服务器连通性。</p>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="includeCredentials">
+        <label for="includeCredentials">发送浏览器 cookies（一般不需要）</label>
+      </div>
+      <!-- 服务器设置提示条：测试连接 / 检查文件夹结果都显示在这里 -->
+      <div class="status" id="status" style="margin-top:12px;"></div>
+    </div>
+
+    <!-- 同步行为 -->
+    <div class="card">
+      <h2>同步行为</h2>
+      <div class="form-group">
+        <label for="localRoot">要同步的书签文件夹</label>
+        <select id="localRoot" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+          <option value="">加载中...</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="syncStrategy">同步策略</label>
+        <select id="syncStrategy" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+          <option value="merge">多设备智能同步（推荐）</option>
+          <option value="local">本地覆盖云端</option>
+          <option value="server">云端覆盖本地</option>
+        </select>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="syncOnStartupEnabled">
+        <label for="syncOnStartupEnabled">浏览器启动时同步</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="syncIntervalEnabled">
+        <label for="syncIntervalEnabled">定时同步</label>
+      </div>
+      <div class="form-group">
+        <label for="syncInterval">同步间隔（分钟）</label>
+        <input type="number" id="syncInterval" min="1" max="1440" value="15">
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="syncOnChangeEnabled">
+        <label for="syncOnChangeEnabled">书签变更时自动同步</label>
+      </div>
+    </div>
+
+    <!-- 高级设置 -->
+    <div class="card">
+      <h2>高级设置</h2>
+
+      <div class="form-group">
+        <label for="encryptionPassphrase">端到端加密密钥</label>
+        <input type="password" id="encryptionPassphrase" placeholder="留空表示不加密，8-16位" maxlength="16" autocomplete="off">
+        <p class="hint">设置后书签文件上传前会用 AES-256 加密，云端只存密文。密钥仅保存在本地，<strong style="color:#e74c3c;">忘记密钥无法恢复加密数据</strong>。</p>
+        <div style="margin-top:8px;padding:10px 12px;background:#fff3cd;border:1px solid #ffc107;border-radius:6px;font-size:12px;color:#856404;line-height:1.6;">
+          <strong>多设备注意：</strong>所有设备必须使用<strong>完全相同的加密密钥</strong>，否则无法解密对方同步的书签文件，导致同步失败。更换设备时请确保密钥一致。
+        </div>
+      </div>
+
+      <div class="form-group" id="confirmPassphraseGroup" style="display:none;">
+        <label for="confirmPassphrase">确认加密密钥</label>
+        <input type="password" id="confirmPassphrase" placeholder="再次输入密钥" maxlength="16" autocomplete="off">
+        <p id="passphraseStrength" class="hint" style="margin-top:6px;"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="failsafeThreshold">熔断保护阈值（%）</label>
+        <input type="number" id="failsafeThreshold" min="10" max="100" value="50">
+        <p class="hint">当本次同步要删除的书签超过此比例时，自动中止同步，防止数据丢失。默认 50%。</p>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="notifyOnSuccess">
+        <label for="notifyOnSuccess">同步成功时通知</label>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="notifyOnFailure">
+        <label for="notifyOnFailure">同步失败时通知</label>
+      </div>
+      <div class="form-group" style="margin-top:12px;">
+        <label>深色模式</label>
+        <select id="darkMode" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+          <option value="auto">跟随系统</option>
+          <option value="light">浅色模式</option>
+          <option value="dark">深色模式</option>
+        </select>
+        <p class="hint">选择界面显示模式，"跟随系统"会自动检测系统深色模式设置。</p>
+      </div>
+      <div class="form-group" style="margin-top:12px;">
+        <label>当前设备 ID</label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="text" id="deviceIdDisplay" readonly style="flex:1;background:#f5f5f5;color:#666;font-family:monospace;font-size:12px;" placeholder="加载中...">
+          <button class="btn-secondary" id="copyDeviceIdBtn" title="复制设备ID" style="padding:6px 8px;display:flex;align-items:center;justify-content:center;min-width:32px;height:32px;">
+            <svg id="copyIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <svg id="copiedIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </div>
+        <p class="hint">每台设备唯一标识，用于多设备同步时识别变更来源。重装扩展会生成新 ID。</p>
+      </div>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="button-group">
+      <button class="btn-primary" id="saveBtn">保存配置并开始同步</button>
+    </div>
+    <p class="hint" style="margin-top:8px;">首次保存会自动检测本地和云端书签状态并完成首次同步；之后保存仅更新配置。</p>
+
+    <!-- 配置管理 -->
+    <div class="card">
+      <h2>配置管理</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;">导出配置用于备份或迁移到其他设备。导出文件包含服务器地址、用户名、密码等敏感信息，请妥善保管。</p>
+      <div class="button-group">
+        <button class="btn-secondary" id="exportConfigBtn">导出配置</button>
+        <button class="btn-secondary" id="importConfigBtn">导入配置</button>
+        <input type="file" id="importConfigFile" accept=".json" style="display:none;">
+      </div>
+    </div>
+
+    <!-- 书签管理（本地操作，与云端无关） -->
+    <div class="card">
+      <h2>书签管理</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;">本地书签的导入导出工具，仅操作本地书签，与云端同步无关。</p>
+      <div class="button-group" style="flex-wrap:wrap;">
+        <button class="btn-secondary" id="exportBookmarksBtn">导出书签</button>
+        <button class="btn-secondary" id="importBookmarksBtn">导入书签</button>
+        <button class="btn-secondary" id="clearBookmarksBtn" style="color:#F44336;border-color:#F44336;">一键清空本地书签</button>
+        <input type="file" id="importBookmarksFile" accept=".html,.htm" style="display:none;">
+      </div>
+      <p class="hint" style="margin-top:8px;">导出/导入支持选择性勾选；一键清空前会自动备份，防止误操作。</p>
+    </div>
+
+    <!-- 备份管理 -->
+    <div class="card">
+      <h2>备份管理</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;">同步前自动备份本地书签，保留最近 5 份。覆盖式导入前也会自动备份。可从备份恢复。</p>
+      <div id="backupList">
+        <p style="font-size:13px;color:#999;">加载中...</p>
+      </div>
+    </div>
+
+    <!-- 操作日志 -->
+    <div class="card">
+      <h2>操作日志</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;">最近 50 次操作记录（同步、导入、导出等）。</p>
+      <div id="logList">
+        <p style="font-size:13px;color:#999;">加载中...</p>
+      </div>
+    </div>
+
+    <!-- 隐私政策 -->
+    <div class="card">
+      <h2>隐私政策</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;">
+        <strong>本扩展不收集任何数据，不连接任何第三方服务器，您的书签数据完全由您自己掌控。</strong>
+      </p>
+      <details style="margin-top:12px;">
+        <summary style="cursor:pointer;font-size:14px;color:#2196F3;font-weight:500;">查看完整隐私政策</summary>
+        <div id="privacyContent" style="margin-top:16px;font-size:13px;line-height:1.8;color:#444;max-height:400px;overflow-y:auto;padding-right:8px;">
+          <h3 style="font-size:15px;margin:16px 0 8px;">一、我们是谁</h3>
+          <p>极客云签 (GeekMark) 是一款开源的浏览器书签同步扩展，帮助用户通过 WebDAV 协议在多设备间同步浏览器书签。本扩展由开发者独立维护，不隶属于任何公司或组织。</p>
+
+          <h3 style="font-size:15px;margin:16px 0 8px;">二、我们收集哪些数据</h3>
+          <p><strong>我们不收集任何用户数据。</strong></p>
+          <p>本扩展不会：</p>
+          <ul style="margin:8px 0;padding-left:20px;">
+            <li>收集您的书签内容</li>
+            <li>收集您的浏览历史</li>
+            <li>收集您的个人信息</li>
+            <li>收集您的设备信息</li>
+            <li>向任何第三方服务器发送数据</li>
+            <li>使用任何分析或统计工具</li>
+            <li>显示任何广告</li>
+          </ul>
+
+          <h3 style="font-size:15px;margin:16px 0 8px;">三、您的数据存储在哪里</h3>
+          <p>您的所有数据仅存储在以下两个位置：</p>
+          <ol style="margin:8px 0;padding-left:20px;">
+            <li><strong>您的本地设备</strong>：通过浏览器的 chrome.storage API 存储配置信息（WebDAV 地址、用户名、密码、同步设置等），这些数据仅保存在您的设备上。</li>
+            <li><strong>您自己的 WebDAV 服务器</strong>：书签数据通过 WebDAV 协议直接上传到您自己配置的 WebDAV 服务器（如 123 云盘、坚果云等），我们不拥有、不访问、不存储这些数据。</li>
+          </ol>
+          <p><strong>我们没有任何服务器，也没有任何云端数据库。</strong></p>
+
+          <h3 style="font-size:15px;margin:16px 0 8px;">四、数据如何传输</h3>
+          <ul style="margin:8px 0;padding-left:20px;">
+            <li>本扩展直接与您配置的 WebDAV 服务器通信，<strong>不经过任何中间服务器</strong>。</li>
+            <li>传输过程使用 HTTPS 加密（取决于您的 WebDAV 服务器是否支持）。</li>
+            <li>如果您启用了端到端加密功能，书签数据在上传前会在您的本地设备上使用 AES-256-GCM 算法加密，即使 WebDAV 服务器被攻破，攻击者也无法读取您的书签内容。</li>
+            <li>加密密钥仅保存在您的本地设备上，不会上传到任何地方。</li>
+          </ul>
+
+          <h3 style="font-size:15px;margin:16px 0 8px;">五、权限说明</h3>
+          <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;">
+            <tr style="background:#f5f5f5;">
+              <th style="border:1px solid #ddd;padding:6px 8px;text-align:left;">权限</th>
+              <th style="border:1px solid #ddd;padding:6px 8px;text-align:left;">用途</th>
+            </tr>
+            <tr>
+              <td style="border:1px solid #ddd;padding:6px 8px;">bookmarks</td>
+              <td style="border:1px solid #ddd;padding:6px 8px;">读取和修改浏览器书签，这是本扩展的核心功能</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid #ddd;padding:6px 8px;">storage</td>
+              <td style="border:1px solid #ddd;padding:6px 8px;">在您的本地设备上保存配置信息和同步状态</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid #ddd;padding:6px 8px;">alarms</td>
+              <td style="border:1px solid #ddd;padding:6px 8px;">实现定时同步功能</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid #ddd;padding:6px 8px;">notifications</td>
+              <td style="border:1px solid #ddd;padding:6px 8px;">在同步成功或失败时向您发送桌面通知</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid #ddd;padding:6px 8px;">host_permissions</td>
+              <td style="border:1px solid #ddd;padding:6px 8px;">允许扩展访问您配置的任意 WebDAV 服务器地址。本扩展仅访问您明确配置的 WebDAV 服务器，不会访问其他网站</td>
+            </tr>
+          </table>
+
+          <h3 style="font-size:15px;margin:16px 0 8px;">六、数据删除</h3>
+          <p>您可以随时：</p>
+          <ul style="margin:8px 0;padding-left:20px;">
+            <li>在扩展设置中清除配置数据</li>
+            <li>在 WebDAV 服务器上删除书签文件和变更日志文件</li>
+            <li>卸载扩展，所有本地数据将被浏览器自动清除</li>
+          </ul>
+
+          <h3 style="font-size:15px;margin:16px 0 8px;">七、变更日志</h3>
+          <p>本扩展会在您的 WebDAV 服务器上创建一个 changes.json 文件，用于记录书签的增删改操作时间戳，实现多设备智能同步。该文件仅包含书签的 URL、标题、操作类型和时间戳，不包含任何个人信息。您可以随时删除该文件，不影响书签数据本身。</p>
+
+          <h3 style="font-size:15px;margin:16px 0 8px;">八、联系我们</h3>
+          <p>如果您对本隐私政策有任何疑问，可以通过 GitHub 项目仓库提交 Issue。</p>
+
+          <p style="margin-top:20px;padding:12px;background:#f0f9ff;border-radius:8px;font-size:13px;">
+            <strong>总结：本扩展不收集任何数据，不连接任何第三方服务器，您的书签数据完全由您自己掌控。</strong>
+          </p>
+          <p style="font-size:11px;color:#999;margin-top:12px;">最后更新日期：2026年9月3日</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 首次同步方向选择模态框（仅当本地和云端都有书签时弹出） -->
+  <div class="modal-overlay" id="firstSyncModal">
+    <div class="modal">
+      <h2 style="margin-bottom:8px;">检测到本地和云端都有书签</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:20px;">请选择首次同步的方式，此选择仅用于本次同步，之后默认使用多设备智能同步。</p>
+
+      <div class="first-sync-option" id="chooseLocal">
+        <div class="option-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="19" x2="12" y2="5"/>
+            <polyline points="6,11 12,5 18,11"/>
+            <line x1="4" y1="21" x2="20" y2="21"/>
+          </svg>
+        </div>
+        <div class="option-content">
+          <div class="option-title">本地覆盖云端</div>
+          <div class="option-desc">用本地书签替换云端全部内容，云端原有书签会被覆盖</div>
+        </div>
+      </div>
+
+      <div class="first-sync-option" id="chooseServer">
+        <div class="option-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <polyline points="6,13 12,19 18,13"/>
+            <line x1="4" y1="3" x2="20" y2="3"/>
+          </svg>
+        </div>
+        <div class="option-content">
+          <div class="option-title">云端覆盖本地</div>
+          <div class="option-desc">用云端书签替换本地全部内容，同步前会自动备份本地书签，可恢复</div>
+        </div>
+      </div>
+
+      <div class="first-sync-option recommended" id="chooseMerge">
+        <div class="option-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+            <polyline points="21,3 21,9 15,9"/>
+          </svg>
+        </div>
+        <div class="option-content">
+          <div class="option-title">多设备智能同步（推荐）</div>
+          <div class="option-desc">两边书签合并去重，只增不删，最安全，不会丢失任何书签</div>
+        </div>
+        <span class="recommend-badge">推荐</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="../common/darkmode.js"></script>
+  <script src="options.js"></script>
+
+  <!-- 书签管理通用弹窗（导出/导入/清空） -->
+  <div class="modal-overlay" id="bookmarkModal" style="display:none;">
+    <div class="modal" style="max-width:600px;width:90%;max-height:80vh;display:flex;flex-direction:column;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h2 id="bookmarkModalTitle" style="margin:0;font-size:18px;">导出书签</h2>
+        <span id="bookmarkModalStep" style="font-size:12px;color:#999;"></span>
+      </div>
+      <div id="bookmarkModalContent" style="flex:1;overflow-y:auto;min-height:200px;"></div>
+      <div id="bookmarkModalFooter" style="margin-top:16px;padding-top:12px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;">
+        <span id="bookmarkModalInfo" style="font-size:13px;color:#666;"></span>
+        <div>
+          <button class="btn-secondary" id="bookmarkModalCancel" style="margin-right:8px;">取消</button>
+          <button class="btn-primary" id="bookmarkModalConfirm">确认</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

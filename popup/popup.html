@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>极客云签</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      width: 320px;
+      max-width: 100vw;
+      padding: 20px;
+      background: #fff;
+      box-sizing: border-box;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .header img {
+      width: 32px;
+      height: 32px;
+    }
+    .header h1 {
+      font-size: 16px;
+      color: #333;
+      flex: 1;
+    }
+    .refresh-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: #f0f0f0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .refresh-btn:hover {
+      background: #e0e0e0;
+    }
+    .refresh-btn.spinning {
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .status-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .status-row:last-child {
+      margin-bottom: 0;
+    }
+    .status-label {
+      color: #666;
+    }
+    .status-value {
+      color: #333;
+      font-weight: 500;
+    }
+    .status-value.success { color: #4CAF50; }
+    .status-value.error { color: #F44336; }
+    .status-value.syncing { color: #2196F3; }
+    .stats-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .stats-title {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: space-around;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .stat-num {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+    }
+    .stat-num.clickable {
+      cursor: pointer;
+      color: #FF9800;
+      text-decoration: underline;
+    }
+    .stat-num.clickable:hover {
+      color: #F57C00;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #999;
+    }
+    .conflict-detail {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #e0e0e0;
+      display: none;
+    }
+    .conflict-detail.show {
+      display: block;
+    }
+    .conflict-item {
+      margin-bottom: 10px;
+      padding: 8px;
+      background: #fff;
+      border-radius: 6px;
+      border: 1px solid #ffe0b2;
+    }
+    .conflict-item:last-child {
+      margin-bottom: 0;
+    }
+    .conflict-url {
+      font-size: 11px;
+      color: #666;
+      word-break: break-all;
+      margin-bottom: 6px;
+    }
+    .conflict-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+    }
+    .conflict-local {
+      color: #4CAF50;
+    }
+    .conflict-server {
+      color: #F44336;
+    }
+    .conflict-hint {
+      font-size: 11px;
+      color: #999;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .btn-sync {
+      width: 100%;
+      padding: 12px;
+      background: #4A90D9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-sync:hover {
+      background: #3A7BC8;
+    }
+    .btn-sync:disabled {
+      background: #B0BEC5;
+      cursor: not-allowed;
+    }
+    .btn-sync.syncing {
+      background: #FFA726;
+    }
+    .settings-link {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      color: #4A90D9;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .settings-link:hover {
+      text-decoration: underline;
+    }
+
+    /* 高级同步 */
+    .advanced-toggle {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      background: none;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      color: #666;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .advanced-toggle:hover {
+      background: #f5f5f5;
+      border-color: #bbb;
+    }
+    .advanced-panel {
+      margin-top: 10px;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+    .advanced-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .btn-advanced {
+      flex: 1;
+      padding: 10px 8px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-advanced:hover {
+      background: #f0f7ff;
+      border-color: #4A90D9;
+      color: #4A90D9;
+    }
+    .btn-advanced:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .strategy-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .strategy-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 12px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      position: relative;
+    }
+    .strategy-item:hover {
+      border-color: #4CAF50;
+      background: #f5fbf5;
+    }
+    .strategy-item:active {
+      transform: scale(0.98);
+    }
+    .strategy-recommend {
+      border-color: #4CAF50;
+      background: #f0f9f0;
+    }
+    .strategy-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      color: #4CAF50;
+    }
+    .strategy-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+    .strategy-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .strategy-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+    }
+    .strategy-desc {
+      font-size: 11px;
+      color: #999;
+    }
+    .strategy-badge {
+      position: absolute;
+      top: -6px;
+      right: 8px;
+      padding: 2px 6px;
+      background: #4CAF50;
+      color: #fff;
+      font-size: 10px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .pause-row {
+      margin-bottom: 6px;
+    }
+    .pause-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #333;
+      cursor: pointer;
+    }
+    .pause-label input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .advanced-hint {
+      font-size: 11px;
+      color: #999;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .setup-card {
+      text-align: center;
+      padding: 24px 16px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .setup-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      color: #4CAF50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .setup-icon svg {
+      width: 44px;
+      height: 44px;
+    }
+    .setup-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    .setup-desc {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .btn-setup {
+      width: 100%;
+      padding: 12px;
+      background: #4A90D9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-setup:hover {
+      background: #3A7BC8;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 400px) {
+      body {
+        width: 100vw;
+        padding: 16px;
+        font-size: 15px;
+      }
+      .header h1 {
+        font-size: 17px;
+      }
+      .status-card, .stats-card, .setup-card {
+        padding: 14px;
+      }
+      .status-row, .stats-title {
+        font-size: 14px;
+      }
+      .stat-num {
+        font-size: 22px;
+      }
+      .btn-sync, .btn-setup {
+        padding: 14px;
+        font-size: 15px;
+        min-height: 48px;
+      }
+      .settings-link {
+        font-size: 14px;
+        padding: 8px 0;
+        min-height: 32px;
+      }
+      .refresh-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
+      .conflict-item {
+        padding: 10px;
+      }
+    }
+
+    /* 深色模式（跟随系统） */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #1a1a1a;
+        color: #e0e0e0;
+      }
+      .header h1 {
+        color: #e0e0e0;
+      }
+      .status-card, .stats-card, .setup-card, .advanced-panel {
+        background: #2a2a2a;
+        border-color: #3a3a3a;
+      }
+      .status-label, .stats-label {
+        color: #999;
+      }
+      .setup-title {
+        color: #e0e0e0;
+      }
+      .setup-desc {
+        color: #999;
+      }
+      .btn-sync {
+        background: #4CAF50;
+      }
+      .btn-sync:hover {
+        background: #45a049;
+      }
+      .btn-setup {
+        background: #2196F3;
+      }
+      .btn-setup:hover {
+        background: #1976D2;
+      }
+      .btn-advanced {
+        background: #333;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+      .btn-advanced:hover {
+        background: #3a3a3a;
+        border-color: #555;
+      }
+      .advanced-toggle {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #999;
+      }
+      .advanced-toggle:hover {
+        background: #333;
+      }
+      .settings-link {
+        color: #64B5F6;
+      }
+      .refresh-btn {
+        background: #333;
+        color: #ccc;
+      }
+      .refresh-btn:hover {
+        background: #444;
+      }
+      .conflict-item {
+        background: #333;
+        border-color: #444;
+      }
+      .conflict-url {
+        color: #64B5F6;
+      }
+      .conflict-hint {
+        color: #666;
+      }
+      .pause-label {
+        color: #e0e0e0;
+      }
+      .advanced-hint {
+        color: #666;
+      }
+    }
+
+    /* 手动深色模式覆盖 */
+    body.dark-mode {
+      background: #1a1a1a;
+      color: #e0e0e0;
+    }
+    body.dark-mode .header h1 { color: #e0e0e0; }
+    body.dark-mode .status-card,
+    body.dark-mode .stats-card,
+    body.dark-mode .setup-card,
+    body.dark-mode .advanced-panel { background: #2a2a2a; border-color: #3a3a3a; }
+    body.dark-mode .status-label,
+    body.dark-mode .stats-label { color: #999; }
+    body.dark-mode .setup-title { color: #e0e0e0; }
+    body.dark-mode .setup-desc { color: #999; }
+    body.dark-mode .btn-advanced { background: #333; border-color: #444; color: #e0e0e0; }
+    body.dark-mode .advanced-toggle { background: #2a2a2a; border-color: #444; color: #999; }
+    body.dark-mode .settings-link { color: #64B5F6; }
+    body.dark-mode .refresh-btn { background: #333; color: #ccc; }
+    body.dark-mode .conflict-item { background: #333; border-color: #444; }
+    body.dark-mode .conflict-url { color: #64B5F6; }
+    body.dark-mode .pause-label { color: #e0e0e0; }
+    body.dark-mode .advanced-hint { color: #666; }
+    body.dark-mode .strategy-item { background: #333; border-color: #444; color: #e0e0e0; }
+    body.dark-mode .strategy-item:hover { background: #2a3a2a; border-color: #4CAF50; }
+    body.dark-mode .strategy-recommend { background: #1a2e1a; border-color: #4CAF50; }
+    body.dark-mode .strategy-name { color: #e0e0e0; }
+    body.dark-mode .strategy-desc { color: #999; }
+    body.dark-mode .strategy-badge { background: #4CAF50; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="../icons/icon32.png" alt="icon">
+    <h1>极客云签</h1>
+    <button class="refresh-btn" id="refreshBtn" title="刷新状态">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+        <polyline points="21,3 21,9 15,9"/>
+      </svg>
+    </button>
+    <button class="refresh-btn" id="openTabBtn" title="在新标签页打开">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h6v6"/>
+        <path d="M10 14L21 3"/>
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- 未配置提示 -->
+  <div class="setup-card" id="setupCard" style="display:none;">
+    <div class="setup-icon">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 32h24a8 8 0 0 0 0-16 10 10 0 0 0-19.5-2A7 7 0 0 0 8 26a6 6 0 0 0 4 6z"/>
+        <line x1="18" y1="38" x2="30" y2="38"/>
+        <line x1="24" y1="34" x2="24" y2="42"/>
+      </svg>
+    </div>
+    <div class="setup-title" id="setupTitle">尚未配置 WebDAV 服务器</div>
+    <div class="setup-desc" id="setupDesc">请先完成配置才能开始同步书签</div>
+    <button class="btn-setup" id="setupBtn">立即配置</button>
+  </div>
+
+  <!-- 同步内容（配置完成后显示） -->
+  <div id="syncContent">
+    <div class="status-card">
+      <div class="status-row">
+        <span class="status-label">同步状态</span>
+        <span class="status-value" id="syncStatus">未同步</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">上次同步</span>
+        <span class="status-value" id="lastSync">从未</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">错误信息</span>
+        <span class="status-value" id="errorMsg">无</span>
+      </div>
+    </div>
+
+    <div class="stats-card" id="statsCard" style="display:none;">
+      <div class="stats-title">本次同步结果</div>
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-num" id="statAdded">0</span>
+          <span class="stat-label">新增</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="statRemoved">0</span>
+          <span class="stat-label">删除</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="statConflicts">0</span>
+          <span class="stat-label">冲突</span>
+        </div>
+      </div>
+      <div class="conflict-detail" id="conflictDetail">
+        <div id="conflictList"></div>
+        <div class="conflict-hint">冲突时默认保留本地标题，服务器标题仅作参考</div>
+      </div>
+    </div>
+
+    <button class="btn-sync" id="syncBtn">立即同步</button>
+
+    <!-- 高级同步 -->
+    <button class="advanced-toggle" id="advancedToggle">
+      <span>高级同步</span>
+      <svg class="toggle-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;">
+        <polyline points="6,9 12,15 18,9"/>
+      </svg>
+    </button>
+    <div class="advanced-panel" id="advancedPanel" style="display:none;">
+      <div class="strategy-list">
+        <button class="strategy-item" id="strategyLocal" data-strategy="local">
+          <span class="strategy-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="19" x2="12" y2="5"/>
+              <polyline points="6,11 12,5 18,11"/>
+              <line x1="4" y1="21" x2="20" y2="21"/>
+            </svg>
+          </span>
+          <span class="strategy-text">
+            <span class="strategy-name">本地覆盖云端</span>
+            <span class="strategy-desc">用本地书签替换云端</span>
+          </span>
+        </button>
+        <button class="strategy-item" id="strategyServer" data-strategy="server">
+          <span class="strategy-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <polyline points="6,13 12,19 18,13"/>
+              <line x1="4" y1="3" x2="20" y2="3"/>
+            </svg>
+          </span>
+          <span class="strategy-text">
+            <span class="strategy-name">云端覆盖本地</span>
+            <span class="strategy-desc">用云端书签替换本地</span>
+          </span>
+        </button>
+        <button class="strategy-item strategy-recommend" id="strategyMerge" data-strategy="merge">
+          <span class="strategy-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+              <polyline points="21,3 21,9 15,9"/>
+            </svg>
+          </span>
+          <span class="strategy-text">
+            <span class="strategy-name">多设备智能同步</span>
+            <span class="strategy-desc">基于变更日志，智能合并</span>
+          </span>
+          <span class="strategy-badge">默认</span>
+        </button>
+      </div>
+      <div class="advanced-row pause-row">
+        <label class="pause-label" for="pauseSync">
+          <input type="checkbox" id="pauseSync">
+          <span>暂停自动同步</span>
+        </label>
+      </div>
+      <p class="advanced-hint">点击上方策略立即执行一次同步。暂停后定时/启动/变更同步停止，手动同步仍可用。</p>
+    </div>
+
+    <a href="#" class="settings-link" id="settingsLink">打开设置页面</a>
+  </div>
+
+  <script src="../common/darkmode.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

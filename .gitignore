@@ -1,0 +1,31 @@
+# 操作系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 临时文件
+*.tmp
+*.bak
+*.log
+.cache/
+
+# 压缩包
+*.zip
+*.rar
+*.7z
+
+# Node（如后续添加构建工具）
+node_modules/
+dist/
+build/
+
+# 环境变量
+.env
+.env.local
