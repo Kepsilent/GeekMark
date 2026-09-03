@@ -56,7 +56,7 @@
 - **配置导出/导入**：一键导出配置 JSON，方便备份和迁移
 - **WebDAV 文件夹隔离**：书签文件存放在 `Bookmarks` 文件夹中（可自定义名称），自动创建，检查重名
 - **测试连接**：只读探测，不创建文件，验证服务器可达性和认证，结果在页面下方提示条显示
-- **移动端适配**：支持 Kiwi 等移动端浏览器，弹窗和设置页面响应式布局
+- **移动端适配**：支持 Quetta（首推）、Kiwi 等移动端浏览器，弹窗和设置页面响应式布局
 - **深色模式**：跟随系统或手动切换（自动/浅色/深色）
 - **新标签页打开**：popup 可在新标签页中全宽打开
 - **暂停同步**：一键暂停自动同步，手动同步仍可触发
@@ -73,15 +73,39 @@
 
 ## 🚀 安装方法
 
-### 开发者模式加载（推荐）
+### 💻 电脑版（Chrome / Edge）
 
-1. 下载本项目源码（或 `git clone https://github.com/Kepsilent/GeekMark.git`）
-2. 打开 Chrome，地址栏输入 `chrome://extensions/`
-3. 右上角开启「开发者模式」
-4. 点击「加载已解压的扩展程序」，选择本项目文件夹
-5. 扩展加载成功，点击工具栏图标开始配置
+1. 前往 [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) 下载最新版本的 `GeekMark-vx.x.x.zip` 压缩包
+2. 解压到任意文件夹
+3. 打开 Chrome / Edge，地址栏输入 `chrome://extensions/`
+4. 右上角开启「开发者模式」
+5. 点击「加载已解压的扩展程序」，选择解压后的文件夹
+6. 扩展加载成功，点击工具栏图标开始配置
 
-> 支持 Chrome / Edge / Kiwi Browser（Android）等支持 Chrome MV3 扩展的浏览器。
+### 📱 手机版（Android）
+
+**首推浏览器：[Quetta](https://quettabrowser.com/)**（支持 Chrome 扩展，体验优秀）
+
+也支持 Kiwi Browser 等其他支持 Chrome MV3 扩展的安卓浏览器。
+
+**安装方式一：CRX 文件（推荐）**
+
+1. 前往 [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) 下载最新版本的 `GeekMark-vx.x.x.crx` 文件
+2. 打开 Quetta / Kiwi 浏览器，地址栏输入 `chrome://extensions/`
+3. 开启「开发者模式」
+4. 点击「加载已打包的扩展程序」（或「+ 从 .crx/.zip 安装」），选择下载的 .crx 文件
+5. 扩展加载成功
+
+**安装方式二：ZIP 压缩包**
+
+1. 前往 [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) 下载最新版本的 `GeekMark-vx.x.x.zip` 压缩包
+2. 解压到手机文件夹
+3. 打开 Quetta / Kiwi 浏览器，地址栏输入 `chrome://extensions/`
+4. 开启「开发者模式」
+5. 点击「加载已解压的扩展程序」，选择解压后的文件夹
+6. 扩展加载成功
+
+> 两种方式都可以，CRX 文件更方便（单个文件），ZIP 压缩包更通用。
 
 ---
 
@@ -98,8 +122,6 @@
 7. 点击「保存配置并开始同步」，首次同步会自动检测数据状态并引导
 
 > 123 云盘 WebDAV 地址格式：`https://webdav.123pan.cn/webdav`
-> 书签文件最终路径：`https://webdav.123pan.cn/webdav/Bookmarks/bookmarks.html`
-> 变更日志路径：`https://webdav.123pan.cn/webdav/Bookmarks/changes.json`
 
 ### 坚果云
 
@@ -221,7 +243,7 @@ A: 密码存储在 `chrome.storage.local` 中，仅保存在当前设备。Chrom
 
 ### Q: 支持 Firefox / Edge 吗？
 
-A: 本扩展使用 Chrome Extension MV3 API，Edge 浏览器可以直接加载使用。Firefox 需要适配其 MV3 实现，暂未测试。移动端推荐 Kiwi 浏览器。
+A: 本扩展使用 Chrome Extension MV3 API，Edge 浏览器可以直接加载使用。Firefox 需要适配其 MV3 实现，暂未测试。移动端首推 Quetta 浏览器，也支持 Kiwi Browser 等。
 
 ### Q: 这个扩展收集我的数据吗？
 
