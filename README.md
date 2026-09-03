@@ -102,7 +102,7 @@
 
 1. 前往 [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) 下载最新版本的 `GeekMark-vx.x.x.zip` 压缩包
 2. 解压到手机文件夹
-3. 打开 Quetta / Kiwi 浏览器，地址栏输入 `chrome://extensions/`
+3. 打开 [Quetta](https://quettabrowser.com/) 浏览器，地址栏输入 `chrome://extensions/`
 4. 开启「开发者模式」
 5. 点击「加载已解压的扩展程序」，选择解压后的文件夹
 6. 扩展加载成功

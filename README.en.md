@@ -102,7 +102,7 @@ Also supports Kiwi Browser and other Android browsers that support Chrome MV3 ex
 
 1. Go to [GitHub Releases](https://github.com/Kepsilent/GeekMark/releases) and download the latest `GeekMark-vx.x.x.zip`
 2. Extract to a phone folder
-3. Open Quetta / Kiwi browser, enter `chrome://extensions/`
+3. Open [Quetta](https://quettabrowser.com/) browser, enter `chrome://extensions/`
 4. Enable「Developer mode」
 5. Click「Load unpacked」, select the extracted folder
 6. Extension loaded successfully
