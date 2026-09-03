@@ -16,6 +16,7 @@ const INACTIVITY_TIMEOUT = 3 * 1000  // 防抖 3 秒
 const DEFAULT_SYNC_INTERVAL = 15      // 默认同步间隔 15 分钟
 const ALARM_NAME = 'bookmark-sync'
 const DEBOUNCE_ALARM = 'bookmark-sync-debounce'  // 防抖兜底闹钟，防止 Service Worker 被回收后定时器丢失
+const UPDATE_CHECK_ALARM = 'update-check'  // 更新检查闹钟，每天检查一次 GitHub Releases 最新版本
 const CHANGE_LOG_FILE = 'changes.json'  // 多设备变更日志文件名
 const MAX_CHANGE_LOG_ENTRIES = 1000    // 变更日志最大保留条数
 const CHANGE_LOG_RETENTION_MS = 90 * 24 * 60 * 60 * 1000  // 变更日志保留90天
@@ -233,6 +234,7 @@ async function getSettings() {
     notifyOnFailure: true,   // 同步失败时通知（默认开）
     syncPaused: false,       // 暂停同步：开启后定时/启动/变更同步都暂停，手动同步仍可用
     darkMode: 'auto',        // 深色模式：auto=跟随系统 / light=浅色 / dark=深色
+    checkUpdatesEnabled: true, // 检查更新：开启后每天检查 GitHub Releases 最新版本
   }
   const stored = await chrome.storage.sync.get(defaults)
   settingsCache = { ...defaults, ...stored }
@@ -255,6 +257,12 @@ async function setSettings(settings) {
     } else {
       updateBadge('allgood')
     }
+  }
+  // 检查更新开关变化时创建或清除 alarm
+  if (settings.checkUpdatesEnabled === true) {
+    chrome.alarms.create(UPDATE_CHECK_ALARM, { periodInMinutes: 1440 })
+  } else if (settings.checkUpdatesEnabled === false) {
+    chrome.alarms.clear(UPDATE_CHECK_ALARM)
   }
 }
 
@@ -1700,10 +1708,17 @@ chrome.runtime.onInstalled.addListener(async () => {
       periodInMinutes: settings.syncInterval,
     })
   }
+  // 创建更新检查 alarm（每天检查一次 GitHub Releases 最新版本）
+  if (settings.checkUpdatesEnabled !== false) {
+    chrome.alarms.create(UPDATE_CHECK_ALARM, {
+      periodInMinutes: 1440, // 24小时
+      delayInMinutes: 1, // 安装后1分钟先检查一次
+    })
+  }
   updateBadge('allgood')
 })
 
-// 定时同步 + 防抖兜底同步
+// 定时同步 + 防抖兜底同步 + 更新检查
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === ALARM_NAME) {
     const settings = await getSettings()
@@ -1715,6 +1730,13 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     // 防抖兜底：Service Worker 被回收后 setTimeout 丢失，由 alarm 唤醒执行同步
     console.log('[Webdav-BookmarkSync] 防抖兜底同步触发')
     syncAccount()
+  } else if (alarm.name === UPDATE_CHECK_ALARM) {
+    // 更新检查：每天检查一次 GitHub Releases 最新版本
+    const settings = await getSettings()
+    if (settings.checkUpdatesEnabled !== false) {
+      console.log('[极客云签] 定时检查更新触发')
+      checkForUpdates(false)
+    }
   }
 })
 
@@ -1900,6 +1922,103 @@ chrome.bookmarks.onMoved.addListener((id, moveInfo) => {
 })
 
 // ============================================================
+// 更新检查（GitHub Releases）
+// ============================================================
+
+const GITHUB_REPO = 'Kepsilent/GeekMark'
+const GITHUB_RELEASES_URL = `https://github.com/${GITHUB_REPO}/releases`
+const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/releases/latest`
+
+/**
+ * 检查 GitHub Releases 最新版本
+ * @param {boolean} manual - 是否手动检查（手动检查时即使是最新版本也提示）
+ * @returns {Promise<object>} 检查结果
+ */
+async function checkForUpdates(manual = false) {
+  try {
+    const currentVersion = chrome.runtime.getManifest().version
+    console.log(`[极客云签] 检查更新，当前版本：v${currentVersion}`)
+
+    const response = await fetch(GITHUB_API_URL, {
+      headers: { 'Accept': 'application/vnd.github.v3+json' },
+    })
+    if (!response.ok) {
+      throw new Error(`GitHub API 返回 ${response.status}`)
+    }
+    const data = await response.json()
+    const latestVersion = data.tag_name?.replace(/^v/, '') || ''
+    const releaseUrl = data.html_url || GITHUB_RELEASES_URL
+    const releaseNotes = data.body || ''
+
+    console.log(`[极客云签] 最新版本：v${latestVersion}`)
+
+    const hasUpdate = compareVersions(latestVersion, currentVersion) > 0
+
+    if (hasUpdate) {
+      const stored = await chrome.storage.local.get('lastNotifiedVersion')
+      const lastNotified = stored.lastNotifiedVersion || ''
+      if (lastNotified !== latestVersion || manual) {
+        chrome.notifications.create('update-available', {
+          type: 'basic',
+          iconUrl: 'icons/icon128.png',
+          title: '极客云签有新版本可用',
+          message: `当前版本 v${currentVersion}，最新版本 v${latestVersion}，点击查看更新说明`,
+          priority: 2,
+        })
+        await chrome.storage.local.set({ lastNotifiedVersion: latestVersion })
+        console.log(`[极客云签] 已发送更新通知：v${latestVersion}`)
+      }
+    } else if (manual) {
+      chrome.notifications.create('update-latest', {
+        type: 'basic',
+        iconUrl: 'icons/icon128.png',
+        title: '极客云签已是最新版本',
+        message: `当前版本 v${currentVersion}，无需更新`,
+        priority: 0,
+      })
+    }
+
+    return { hasUpdate, currentVersion, latestVersion, releaseUrl, releaseNotes }
+  } catch (e) {
+    console.warn('[极客云签] 检查更新失败:', e.message)
+    if (manual) {
+      chrome.notifications.create('update-error', {
+        type: 'basic',
+        iconUrl: 'icons/icon128.png',
+        title: '检查更新失败',
+        message: e.message,
+        priority: 1,
+      })
+    }
+    return { hasUpdate: false, error: e.message }
+  }
+}
+
+/**
+ * 比较两个 semver 版本号
+ * @returns {number} 1: v1 > v2, -1: v1 < v2, 0: 相等
+ */
+function compareVersions(v1, v2) {
+  const parts1 = v1.split('.').map(Number)
+  const parts2 = v2.split('.').map(Number)
+  for (let i = 0; i < 3; i++) {
+    const p1 = parts1[i] || 0
+    const p2 = parts2[i] || 0
+    if (p1 > p2) return 1
+    if (p1 < p2) return -1
+  }
+  return 0
+}
+
+// 通知点击监听：点击更新通知后跳转到 GitHub Releases 页面
+chrome.notifications.onClicked.addListener((notificationId) => {
+  if (notificationId === 'update-available') {
+    chrome.tabs.create({ url: GITHUB_RELEASES_URL })
+    chrome.notifications.clear(notificationId)
+  }
+})
+
+// ============================================================
 // 消息通信（popup/options 页面调用）
 // ============================================================
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -2050,6 +2169,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     case 'getSyncLogs':
       getSyncLogs().then(sendResponse)
+      return true
+
+    case 'checkForUpdates':
+      checkForUpdates(true).then(sendResponse)
       return true
 
     case 'notify':

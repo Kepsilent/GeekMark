@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('notifyOnSuccess').checked = settings.notifyOnSuccess !== false
     document.getElementById('notifyOnFailure').checked = settings.notifyOnFailure !== false
     document.getElementById('darkMode').value = settings.darkMode || 'auto'
+    document.getElementById('checkUpdatesEnabled').checked = settings.checkUpdatesEnabled !== false
     applyDarkMode(settings.darkMode || 'auto')
     // 如果已有密钥，显示确认密码框并填充
     if (settings.encryptionPassphrase) {
@@ -93,6 +94,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     showStatus('设备ID已复制', 'success')
   })
 
+  // 手动检查更新按钮
+  document.getElementById('checkUpdateBtn').addEventListener('click', async () => {
+    showStatus('正在检查更新...', 'loading')
+    try {
+      const result = await chrome.runtime.sendMessage({ type: 'checkForUpdates' })
+      if (result.error) {
+        showStatus('检查更新失败：' + result.error, 'error')
+      } else if (result.hasUpdate) {
+        showStatus(`发现新版本 v${result.latestVersion}，当前版本 v${result.currentVersion}，通知已发送，点击通知查看更新说明`, 'success')
+      } else {
+        showStatus(`已是最新版本 v${result.currentVersion}`, 'success')
+      }
+    } catch (e) {
+      showStatus('检查更新失败：' + e.message, 'error')
+    }
+  })
+
   // 保存按钮
   document.getElementById('saveBtn').addEventListener('click', async () => {
     const settings = {
@@ -113,6 +131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       notifyOnSuccess: document.getElementById('notifyOnSuccess').checked,
       notifyOnFailure: document.getElementById('notifyOnFailure').checked,
       darkMode: document.getElementById('darkMode').value,
+      checkUpdatesEnabled: document.getElementById('checkUpdatesEnabled').checked,
     }
 
     if (!settings.url || !settings.username || !settings.password) {

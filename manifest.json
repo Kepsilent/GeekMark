@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "极客云签 (GeekMark)",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "通过 WebDAV 多设备智能同步浏览器书签，支持123云盘/坚果云等，端到端加密",
   "permissions": [
     "bookmarks",

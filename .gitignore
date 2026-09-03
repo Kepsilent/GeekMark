@@ -32,3 +32,7 @@ build/
 
 # 私人开发文档（不公开）
 PROJECT.md
+
+# 扩展打包文件（不提交到仓库，只在 Release 发布）
+*.crx
+*.pem
