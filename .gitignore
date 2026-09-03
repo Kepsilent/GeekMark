@@ -36,3 +36,9 @@ PROJECT.md
 # 扩展打包文件（不提交到仓库，只在 Release 发布）
 *.crx
 *.pem
+
+# 演示文件（不提交到仓库）
+demo/
+
+# SVG 设计源文件（运行时只用 PNG，不提交到仓库）
+icons/*.svg

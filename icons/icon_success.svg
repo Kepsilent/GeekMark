@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
-  <!-- 绿色圆形背景 -->
-  <circle cx="24" cy="24" r="22" fill="#4CAF50"/>
-  <!-- 对勾 -->
-  <polyline points="14,25 21,32 34,17" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
