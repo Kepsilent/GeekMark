@@ -1,259 +1,852 @@
 {
-  "extName": { "message": "GeekMark" },
-  "extDescription": { "message": "Intelligent multi-device bookmark sync via WebDAV, supports 123Pan/Jianguoyun etc, end-to-end encryption" },
-
-  "popup_title": { "message": "GeekMark" },
-  "popup_refresh": { "message": "Refresh status" },
-  "popup_openTab": { "message": "Open in new tab" },
-  "popup_notConfigured": { "message": "WebDAV server not configured" },
-  "popup_notConfiguredDesc": { "message": "Please complete configuration before syncing bookmarks" },
-  "popup_setupNow": { "message": "Configure now" },
-  "popup_syncStatus": { "message": "Sync status" },
-  "popup_notSynced": { "message": "Not synced" },
-  "popup_syncing": { "message": "Syncing" },
-  "popup_syncSuccess": { "message": "Sync success" },
-  "popup_syncFailed": { "message": "Sync failed" },
-  "popup_syncPaused": { "message": "Paused" },
-  "popup_lastSync": { "message": "Last sync" },
-  "popup_never": { "message": "Never" },
-  "popup_errorMsg": { "message": "Error" },
-  "popup_none": { "message": "None" },
-  "popup_syncResult": { "message": "Sync result" },
-  "popup_added": { "message": "Added" },
-  "popup_deleted": { "message": "Deleted" },
-  "popup_conflicts": { "message": "Conflicts" },
-  "popup_conflictHint": { "message": "On conflict, local title is kept by default, server title is for reference only" },
-  "popup_syncNow": { "message": "Sync now" },
-  "popup_advancedSync": { "message": "Advanced sync" },
-  "popup_localOverCloud": { "message": "Local overwrites cloud" },
-  "popup_localOverCloudDesc": { "message": "Replace cloud with local bookmarks" },
-  "popup_cloudOverLocal": { "message": "Cloud overwrites local" },
-  "popup_cloudOverLocalDesc": { "message": "Replace local with cloud bookmarks" },
-  "popup_smartSync": { "message": "Multi-device smart sync" },
-  "popup_smartSyncDesc": { "message": "Change-log based, intelligent merge" },
-  "popup_default": { "message": "Default" },
-  "popup_pauseSync": { "message": "Pause auto sync" },
-  "popup_advancedHint": { "message": "Click a strategy above to execute sync immediately. When paused, scheduled/startup/change sync stops, manual sync still works." },
-  "popup_openSettings": { "message": "Open settings" },
-  "popup_phase_downloading": { "message": "Downloading" },
-  "popup_phase_merging": { "message": "Merging" },
-  "popup_phase_applying": { "message": "Applying" },
-  "popup_phase_uploading": { "message": "Uploading" },
-  "popup_phase_done": { "message": "Done" },
-  "popup_commFailed": { "message": "Communication failed, please refresh and retry" },
-  "popup_firstUse": { "message": "First use, welcome!" },
-  "popup_firstUseDesc": { "message": "Please configure WebDAV server info first (supports 123Pan, Jianguoyun, etc.), then start syncing bookmarks" },
-  "popup_configIncomplete": { "message": "Configuration incomplete, cannot sync. Please click the button below to complete configuration" },
-  "popup_pausedClick": { "message": "Paused, click to manual sync" },
-  "popup_confirmLocalOverCloud": { "message": "Sure to overwrite cloud with local? Local bookmarks will replace cloud bookmarks, existing cloud content will be replaced." },
-  "popup_confirmCloudOverLocal": { "message": "Sure to overwrite local with cloud? Cloud bookmarks will replace local bookmarks, local bookmarks will be auto-backed up before sync." },
-  "popup_synced": { "message": "Synced" },
-  "popup_clickConflictDetail": { "message": "Click to view conflict details" },
-  "popup_local": { "message": "Local" },
-  "popup_server": { "message": "Server" },
-  "popup_justNow": { "message": "just now" },
-  "popup_minutesAgo": { "message": " min ago" },
-  "popup_hoursAgo": { "message": " hours ago" },
-
-  "options_title": { "message": "GeekMark - Settings" },
-  "options_serverSettings": { "message": "Server Settings" },
-  "options_serverUrl": { "message": "WebDAV Server URL" },
-  "options_username": { "message": "Username" },
-  "options_password": { "message": "Password" },
-  "options_webdavFolder": { "message": "WebDAV Folder Name" },
-  "options_webdavFolderHint": { "message": "Bookmark files and change logs are stored in this folder, auto-created, duplicate name checked" },
-  "options_fill123pan": { "message": "Fill 123Pan" },
-  "options_fillJianguoyun": { "message": "Fill Jianguoyun" },
-  "options_testConnection": { "message": "Test connection" },
-  "options_checkFolder": { "message": "Check folder" },
-  "options_testing": { "message": "Testing..." },
-  "options_connectionSuccess": { "message": "Connection test successful" },
-  "options_connectionFailed": { "message": "Connection test failed" },
-  "options_folderExists": { "message": "Folder exists" },
-  "options_folderNotExists": { "message": "Folder does not exist, will be created automatically" },
-  "options_folderCreated": { "message": "Folder created successfully" },
-  "options_folderCreateFailed": { "message": "Folder creation failed" },
-  "options_folderDuplicate": { "message": "Folder name duplicate, please change" },
-  "options_pleaseFill": { "message": "Please fill in complete server information" },
-
-  "options_syncSettings": { "message": "Sync Settings" },
-  "options_syncStrategy": { "message": "Sync strategy" },
-  "options_strategySmart": { "message": "Multi-device smart sync" },
-  "options_strategyLocal": { "message": "Local overwrites cloud" },
-  "options_strategyCloud": { "message": "Cloud overwrites local" },
-  "options_syncOnStartup": { "message": "Sync on browser startup" },
-  "options_syncInterval": { "message": "Scheduled sync" },
-  "options_syncIntervalMinutes": { "message": "Sync interval (minutes)" },
-  "options_syncOnChange": { "message": "Sync on bookmark change" },
-  "options_syncOnChangeHint": { "message": "Auto-sync when bookmark add/delete/modify detected (3s debounce)" },
-  "options_localRoot": { "message": "Bookmark folder to sync" },
-  "options_localRootHint": { "message": "Select the local bookmark root directory to sync" },
-  "options_failsafeThreshold": { "message": "Circuit breaker threshold (%)" },
-  "options_failsafeHint": { "message": "Auto-abort when single sync deletes more than this ratio, prevents data loss" },
-
-  "options_securitySettings": { "message": "Security Settings" },
-  "options_encryption": { "message": "End-to-end encryption key" },
-  "options_encryptionHint": { "message": "When set, bookmark files and change logs are encrypted before upload. 8-16 chars, all devices must use the same key" },
-  "options_encryptionPlaceholder": { "message": "Leave empty for no encryption" },
-  "options_confirmEncryption": { "message": "Confirm key" },
-  "options_encryptionMismatch": { "message": "The two keys do not match" },
-  "options_encryptionTooShort": { "message": "Key must be at least 8 chars" },
-  "options_encryptionTooLong": { "message": "Key must be at most 16 chars" },
-  "options_encryptionWeak": { "message": "Key strength: Weak" },
-  "options_encryptionMedium": { "message": "Key strength: Medium" },
-  "options_encryptionStrong": { "message": "Key strength: Strong" },
-
-  "options_notificationSettings": { "message": "Notification Settings" },
-  "options_notifyOnSuccess": { "message": "Notify on sync success" },
-  "options_notifyOnFailure": { "message": "Notify on sync failure" },
-  "options_checkUpdates": { "message": "Auto-check updates (check GitHub Releases daily)" },
-  "options_checkUpdateNow": { "message": "Check updates now" },
-  "options_checkingUpdate": { "message": "Checking updates..." },
-  "options_updateAvailable": { "message": "New version found, notification sent, click notification to view changelog" },
-  "options_alreadyLatest": { "message": "Already latest version" },
-  "options_updateCheckFailed": { "message": "Update check failed" },
-
-  "options_appearanceSettings": { "message": "Appearance Settings" },
-  "options_darkMode": { "message": "Dark mode" },
-  "options_darkAuto": { "message": "Follow system" },
-  "options_darkLight": { "message": "Light mode" },
-  "options_darkDark": { "message": "Dark mode" },
-  "options_darkHint": { "message": "Select display mode. \"Follow system\" auto-detects system dark mode setting." },
-
-  "options_deviceInfo": { "message": "Device Info" },
-  "options_deviceId": { "message": "Current Device ID" },
-  "options_deviceIdHint": { "message": "Unique identifier per device, used to identify change source in multi-device sync. Reinstalling extension generates new ID." },
-  "options_deviceIdCopied": { "message": "Device ID copied" },
-  "options_deviceIdNotLoaded": { "message": "Device ID not loaded yet" },
-
-  "options_bookmarkManagement": { "message": "Bookmark Management" },
-  "options_exportBookmarks": { "message": "Export all bookmarks" },
-  "options_importBookmarks": { "message": "Import bookmarks" },
-  "options_clearBookmarks": { "message": "Clear all local bookmarks" },
-  "options_clearConfirm": { "message": "Are you sure you want to clear all local bookmarks? Will auto-backup then clear." },
-  "options_clearSuccess": { "message": "Local bookmarks cleared" },
-  "options_clearFailed": { "message": "Clear failed" },
-  "options_exportSuccess": { "message": "Bookmarks exported successfully" },
-  "options_exportFailed": { "message": "Bookmark export failed" },
-  "options_importSuccess": { "message": "Bookmarks imported successfully" },
-  "options_importFailed": { "message": "Bookmark import failed" },
-
-  "options_exportModalTitle": { "message": "Select bookmarks to export" },
-  "options_importModalTitle": { "message": "Import bookmarks" },
-  "options_selectAll": { "message": "Select all" },
-  "options_deselectAll": { "message": "Deselect all" },
-  "options_export": { "message": "Export" },
-  "options_import": { "message": "Import" },
-  "options_cancel": { "message": "Cancel" },
-  "options_confirm": { "message": "Confirm" },
-  "options_next": { "message": "Next" },
-  "options_back": { "message": "Back" },
-  "options_close": { "message": "Close" },
-
-  "options_importSource": { "message": "Select import source" },
-  "options_importLocalFile": { "message": "Local file" },
-  "options_importUrl": { "message": "URL" },
-  "options_importUrlPlaceholder": { "message": "Paste bookmark HTML direct link" },
-  "options_paste": { "message": "Paste" },
-  "options_pasteSuccess": { "message": "Pasted" },
-  "options_importMode": { "message": "Import mode" },
-  "options_importMerge": { "message": "Merge import" },
-  "options_importMergeDesc": { "message": "Keep existing bookmarks, add imported bookmarks" },
-  "options_importOverwrite": { "message": "Overwrite import" },
-  "options_importOverwriteDesc": { "message": "Backup first → clear local → import, only show imported bookmarks" },
-  "options_importTarget": { "message": "Import to" },
-  "options_newFolder": { "message": "New folder" },
-  "options_newFolderPlaceholder": { "message": "Enter new folder name" },
-  "options_createFolder": { "message": "Create" },
-  "options_noBookmarksSelected": { "message": "Please select at least one bookmark" },
-  "options_invalidUrl": { "message": "Please enter a valid URL" },
-  "options_downloading": { "message": "Downloading..." },
-  "options_parsing": { "message": "Parsing..." },
-
-  "options_configManagement": { "message": "Config Management" },
-  "options_exportConfig": { "message": "Export config" },
-  "options_importConfig": { "message": "Import config" },
-  "options_configExportSuccess": { "message": "Config exported successfully" },
-  "options_configExportFailed": { "message": "Config export failed" },
-  "options_configImportSuccess": { "message": "Config imported successfully" },
-  "options_configImportFailed": { "message": "Config import failed" },
-  "options_configImportConfirm": { "message": "Importing config will overwrite current config, continue?" },
-
-  "options_backupManagement": { "message": "Backup Management" },
-  "options_backupList": { "message": "Backup list" },
-  "options_noBackups": { "message": "No backups" },
-  "options_restore": { "message": "Restore" },
-  "options_delete": { "message": "Delete" },
-  "options_restoreConfirm": { "message": "Are you sure you want to restore this backup?" },
-  "options_restoreSuccess": { "message": "Backup restored successfully" },
-  "options_restoreFailed": { "message": "Backup restore failed" },
-  "options_restoreModalTitle": { "message": "Restore backup" },
-  "options_restoreMode": { "message": "Restore mode" },
-  "options_restoreMerge": { "message": "Merge restore" },
-  "options_restoreOverwrite": { "message": "Overwrite restore" },
-  "options_restoreTarget": { "message": "Restore to" },
-  "options_backupInfo": { "message": "Backup info" },
-  "options_backupTime": { "message": "Backup time" },
-  "options_backupCount": { "message": "Bookmark count" },
-
-  "options_operationLog": { "message": "Operation Log" },
-  "options_logList": { "message": "Log list" },
-  "options_noLogs": { "message": "No logs" },
-  "options_logSync": { "message": "Sync" },
-  "options_logImport": { "message": "Import" },
-  "options_logExport": { "message": "Export" },
-  "options_logClear": { "message": "Clear" },
-  "options_logBackup": { "message": "Backup" },
-  "options_logRestore": { "message": "Restore" },
-  "options_logSuccess": { "message": "Success" },
-  "options_logFailed": { "message": "Failed" },
-
-  "options_save": { "message": "Save config and start sync" },
-  "options_saving": { "message": "Saving..." },
-  "options_saveSuccess": { "message": "Config saved" },
-  "options_saveFailed": { "message": "Save failed" },
-
-  "options_firstSyncTitle": { "message": "First sync" },
-  "options_firstSyncDetecting": { "message": "Detecting data state..." },
-  "options_firstSyncLocalOnly": { "message": "Local bookmarks detected, cloud empty, will auto-upload local to cloud" },
-  "options_firstSyncCloudOnly": { "message": "Cloud bookmarks detected, local empty, will auto-download cloud to local" },
-  "options_firstSyncBoth": { "message": "Both local and cloud have bookmarks, please select sync method" },
-  "options_firstSyncUpload": { "message": "Upload local to cloud" },
-  "options_firstSyncDownload": { "message": "Cloud overwrites local" },
-  "options_firstSyncMerge": { "message": "Merge both" },
-  "options_firstSyncStart": { "message": "Start sync" },
-
-  "notify_syncSuccess": { "message": "Sync success" },
-  "notify_syncFailed": { "message": "Sync failed" },
-  "notify_updateAvailable": { "message": "GeekMark new version available" },
-  "notify_updateAvailableDesc": { "message": "Current v$currentVersion$, latest v$latestVersion$, click to view changelog", "placeholders": { "currentVersion": { "content": "$1" }, "latestVersion": { "content": "$2" } } },
-  "notify_alreadyLatest": { "message": "GeekMark is already latest" },
-  "notify_alreadyLatestDesc": { "message": "Current v$currentVersion$, no update needed", "placeholders": { "currentVersion": { "content": "$1" } } },
-  "notify_updateCheckFailed": { "message": "Update check failed" },
-
-  "log_syncStarted": { "message": "Sync started" },
-  "log_syncSuccess": { "message": "Sync success" },
-  "log_syncFailed": { "message": "Sync failed" },
-  "log_importSuccess": { "message": "Import success" },
-  "log_importFailed": { "message": "Import failed" },
-  "log_exportSuccess": { "message": "Export success" },
-  "log_exportFailed": { "message": "Export failed" },
-  "log_clearSuccess": { "message": "Clear success" },
-  "log_clearFailed": { "message": "Clear failed" },
-  "log_backupCreated": { "message": "Backup created" },
-  "log_restoreSuccess": { "message": "Restore success" },
-  "log_restoreFailed": { "message": "Restore failed" },
-
-  "error_invalidFile": { "message": "File format cannot parse any bookmarks or folders. To protect local data, sync aborted." },
-  "error_fileCorrupted": { "message": "File integrity check failed" },
-  "error_failsafeTriggered": { "message": "Circuit breaker triggered: deletions exceed threshold, sync aborted" },
-  "error_connectionFailed": { "message": "Failed to connect to server" },
-  "error_authFailed": { "message": "Authentication failed, please check username and password" },
-  "error_encryptionKeyMismatch": { "message": "Key error, cannot decrypt file. All devices must use the same key." },
-  "error_bookmarkNotFound": { "message": "Bookmark not found" },
-  "error_folderNotFound": { "message": "Folder not found" },
-
-  "privacy_policy": { "message": "Privacy Policy" },
-  "about": { "message": "About" },
-  "version": { "message": "Version" }
+  "extName": {
+    "message": "GeekMark"
+  },
+  "extDescription": {
+    "message": "Intelligent multi-device bookmark sync via WebDAV, supports 123Pan/Jianguoyun etc, end-to-end encryption"
+  },
+  "popup_title": {
+    "message": "GeekMark"
+  },
+  "popup_refresh": {
+    "message": "Refresh status"
+  },
+  "popup_openTab": {
+    "message": "Open in new tab"
+  },
+  "popup_notConfigured": {
+    "message": "WebDAV server not configured"
+  },
+  "popup_notConfiguredDesc": {
+    "message": "Please complete configuration before syncing bookmarks"
+  },
+  "popup_setupNow": {
+    "message": "Configure now"
+  },
+  "popup_syncStatus": {
+    "message": "Sync status"
+  },
+  "popup_notSynced": {
+    "message": "Not synced"
+  },
+  "popup_syncing": {
+    "message": "Syncing"
+  },
+  "popup_syncSuccess": {
+    "message": "Sync success"
+  },
+  "popup_syncFailed": {
+    "message": "Sync failed"
+  },
+  "popup_syncPaused": {
+    "message": "Paused"
+  },
+  "popup_lastSync": {
+    "message": "Last sync"
+  },
+  "popup_never": {
+    "message": "Never"
+  },
+  "popup_errorMsg": {
+    "message": "Error"
+  },
+  "popup_none": {
+    "message": "None"
+  },
+  "popup_syncResult": {
+    "message": "Sync result"
+  },
+  "popup_added": {
+    "message": "Added"
+  },
+  "popup_deleted": {
+    "message": "Deleted"
+  },
+  "popup_conflicts": {
+    "message": "Conflicts"
+  },
+  "popup_conflictHint": {
+    "message": "On conflict, local title is kept by default, server title is for reference only"
+  },
+  "popup_syncNow": {
+    "message": "Sync now"
+  },
+  "popup_advancedSync": {
+    "message": "Advanced sync"
+  },
+  "popup_localOverCloud": {
+    "message": "Local overwrites cloud"
+  },
+  "popup_localOverCloudDesc": {
+    "message": "Replace cloud with local bookmarks"
+  },
+  "popup_cloudOverLocal": {
+    "message": "Cloud overwrites local"
+  },
+  "popup_cloudOverLocalDesc": {
+    "message": "Replace local with cloud bookmarks"
+  },
+  "popup_smartSync": {
+    "message": "Multi-device smart sync"
+  },
+  "popup_smartSyncDesc": {
+    "message": "Change-log based, intelligent merge"
+  },
+  "popup_default": {
+    "message": "Default"
+  },
+  "popup_pauseSync": {
+    "message": "Pause auto sync"
+  },
+  "popup_advancedHint": {
+    "message": "Click a strategy above to execute sync immediately. When paused, scheduled/startup/change sync stops, manual sync still works."
+  },
+  "popup_openSettings": {
+    "message": "Open settings"
+  },
+  "popup_phase_downloading": {
+    "message": "Downloading"
+  },
+  "popup_phase_merging": {
+    "message": "Merging"
+  },
+  "popup_phase_applying": {
+    "message": "Applying"
+  },
+  "popup_phase_uploading": {
+    "message": "Uploading"
+  },
+  "popup_phase_done": {
+    "message": "Done"
+  },
+  "popup_commFailed": {
+    "message": "Communication failed, please refresh and retry"
+  },
+  "popup_firstUse": {
+    "message": "First use, welcome!"
+  },
+  "popup_firstUseDesc": {
+    "message": "Please configure WebDAV server info first (supports 123Pan, Jianguoyun, etc.), then start syncing bookmarks"
+  },
+  "popup_configIncomplete": {
+    "message": "Configuration incomplete, cannot sync. Please click the button below to complete configuration"
+  },
+  "popup_pausedClick": {
+    "message": "Paused, click to manual sync"
+  },
+  "popup_confirmLocalOverCloud": {
+    "message": "Sure to overwrite cloud with local? Local bookmarks will replace cloud bookmarks, existing cloud content will be replaced."
+  },
+  "popup_confirmCloudOverLocal": {
+    "message": "Sure to overwrite local with cloud? Cloud bookmarks will replace local bookmarks, local bookmarks will be auto-backed up before sync."
+  },
+  "popup_synced": {
+    "message": "Synced"
+  },
+  "popup_clickConflictDetail": {
+    "message": "Click to view conflict details"
+  },
+  "popup_local": {
+    "message": "Local"
+  },
+  "popup_server": {
+    "message": "Server"
+  },
+  "popup_justNow": {
+    "message": "just now"
+  },
+  "popup_minutesAgo": {
+    "message": " min ago"
+  },
+  "popup_hoursAgo": {
+    "message": " hours ago"
+  },
+  "options_title": {
+    "message": "GeekMark - Settings"
+  },
+  "options_serverSettings": {
+    "message": "Server Settings"
+  },
+  "options_serverUrl": {
+    "message": "WebDAV Server URL"
+  },
+  "options_username": {
+    "message": "Username"
+  },
+  "options_password": {
+    "message": "Password"
+  },
+  "options_webdavFolder": {
+    "message": "WebDAV Folder Name"
+  },
+  "options_webdavFolderHint": {
+    "message": "Bookmark files and change logs are stored in this folder, auto-created, duplicate name checked"
+  },
+  "options_fill123pan": {
+    "message": "Fill 123Pan"
+  },
+  "options_fillJianguoyun": {
+    "message": "Fill Jianguoyun"
+  },
+  "options_testConnection": {
+    "message": "Test connection"
+  },
+  "options_checkFolder": {
+    "message": "Check folder"
+  },
+  "options_testing": {
+    "message": "Testing..."
+  },
+  "options_connectionSuccess": {
+    "message": "Connection test successful"
+  },
+  "options_connectionFailed": {
+    "message": "Connection test failed"
+  },
+  "options_folderExists": {
+    "message": "Folder exists"
+  },
+  "options_folderNotExists": {
+    "message": "Folder does not exist, will be created automatically"
+  },
+  "options_folderCreated": {
+    "message": "Folder created successfully"
+  },
+  "options_folderCreateFailed": {
+    "message": "Folder creation failed"
+  },
+  "options_folderDuplicate": {
+    "message": "Folder name duplicate, please change"
+  },
+  "options_pleaseFill": {
+    "message": "Please fill in complete server information"
+  },
+  "options_syncSettings": {
+    "message": "Sync Settings"
+  },
+  "options_syncStrategy": {
+    "message": "Sync strategy"
+  },
+  "options_strategySmart": {
+    "message": "Multi-device smart sync"
+  },
+  "options_strategyLocal": {
+    "message": "Local overwrites cloud"
+  },
+  "options_strategyCloud": {
+    "message": "Cloud overwrites local"
+  },
+  "options_syncOnStartup": {
+    "message": "Sync on browser startup"
+  },
+  "options_syncInterval": {
+    "message": "Scheduled sync"
+  },
+  "options_syncIntervalMinutes": {
+    "message": "Sync interval (minutes)"
+  },
+  "options_syncOnChange": {
+    "message": "Sync on bookmark change"
+  },
+  "options_syncOnChangeHint": {
+    "message": "Auto-sync when bookmark add/delete/modify detected (3s debounce)"
+  },
+  "options_localRoot": {
+    "message": "Bookmark folder to sync"
+  },
+  "options_localRootHint": {
+    "message": "Select the local bookmark root directory to sync"
+  },
+  "options_failsafeThreshold": {
+    "message": "Circuit breaker threshold (%)"
+  },
+  "options_failsafeHint": {
+    "message": "Auto-abort when single sync deletes more than this ratio, prevents data loss"
+  },
+  "options_securitySettings": {
+    "message": "Security Settings"
+  },
+  "options_encryption": {
+    "message": "End-to-end encryption key"
+  },
+  "options_encryptionHint": {
+    "message": "When set, bookmark files and change logs are encrypted before upload. 8-16 chars, all devices must use the same key"
+  },
+  "options_encryptionPlaceholder": {
+    "message": "Leave empty for no encryption"
+  },
+  "options_confirmEncryption": {
+    "message": "Confirm key"
+  },
+  "options_encryptionMismatch": {
+    "message": "The two keys do not match"
+  },
+  "options_encryptionTooShort": {
+    "message": "Key must be at least 8 chars"
+  },
+  "options_encryptionTooLong": {
+    "message": "Key must be at most 16 chars"
+  },
+  "options_encryptionWeak": {
+    "message": "Key strength: Weak"
+  },
+  "options_encryptionMedium": {
+    "message": "Key strength: Medium"
+  },
+  "options_encryptionStrong": {
+    "message": "Key strength: Strong"
+  },
+  "options_notificationSettings": {
+    "message": "Notification Settings"
+  },
+  "options_notifyOnSuccess": {
+    "message": "Notify on sync success"
+  },
+  "options_notifyOnFailure": {
+    "message": "Notify on sync failure"
+  },
+  "options_checkUpdates": {
+    "message": "Auto-check updates (check GitHub Releases daily)"
+  },
+  "options_checkUpdateNow": {
+    "message": "Check updates now"
+  },
+  "options_checkingUpdate": {
+    "message": "Checking updates..."
+  },
+  "options_updateAvailable": {
+    "message": "New version found, notification sent, click notification to view changelog"
+  },
+  "options_alreadyLatest": {
+    "message": "Already latest version"
+  },
+  "options_updateCheckFailed": {
+    "message": "Update check failed"
+  },
+  "options_appearanceSettings": {
+    "message": "Appearance Settings"
+  },
+  "options_darkMode": {
+    "message": "Dark mode"
+  },
+  "options_darkAuto": {
+    "message": "Follow system"
+  },
+  "options_darkLight": {
+    "message": "Light mode"
+  },
+  "options_darkDark": {
+    "message": "Dark mode"
+  },
+  "options_darkHint": {
+    "message": "Select display mode. \"Follow system\" auto-detects system dark mode setting."
+  },
+  "options_deviceInfo": {
+    "message": "Device Info"
+  },
+  "options_deviceId": {
+    "message": "Current Device ID"
+  },
+  "options_deviceIdHint": {
+    "message": "Unique identifier per device, used to identify change source in multi-device sync. Reinstalling extension generates new ID."
+  },
+  "options_deviceIdCopied": {
+    "message": "Device ID copied"
+  },
+  "options_deviceIdNotLoaded": {
+    "message": "Device ID not loaded yet"
+  },
+  "options_bookmarkManagement": {
+    "message": "Bookmark Management"
+  },
+  "options_exportBookmarks": {
+    "message": "Export all bookmarks"
+  },
+  "options_importBookmarks": {
+    "message": "Import bookmarks"
+  },
+  "options_clearBookmarks": {
+    "message": "Clear all local bookmarks"
+  },
+  "options_clearConfirm": {
+    "message": "Are you sure you want to clear all local bookmarks? Will auto-backup then clear."
+  },
+  "options_clearSuccess": {
+    "message": "Local bookmarks cleared"
+  },
+  "options_clearFailed": {
+    "message": "Clear failed"
+  },
+  "options_exportSuccess": {
+    "message": "Bookmarks exported successfully"
+  },
+  "options_exportFailed": {
+    "message": "Bookmark export failed"
+  },
+  "options_importSuccess": {
+    "message": "Bookmarks imported successfully"
+  },
+  "options_importFailed": {
+    "message": "Bookmark import failed"
+  },
+  "options_exportModalTitle": {
+    "message": "Select bookmarks to export"
+  },
+  "options_importModalTitle": {
+    "message": "Import bookmarks"
+  },
+  "options_selectAll": {
+    "message": "Select all"
+  },
+  "options_deselectAll": {
+    "message": "Deselect all"
+  },
+  "options_export": {
+    "message": "Export"
+  },
+  "options_import": {
+    "message": "Import"
+  },
+  "options_cancel": {
+    "message": "Cancel"
+  },
+  "options_confirm": {
+    "message": "Confirm"
+  },
+  "options_next": {
+    "message": "Next"
+  },
+  "options_back": {
+    "message": "Back"
+  },
+  "options_close": {
+    "message": "Close"
+  },
+  "options_importSource": {
+    "message": "Select import source"
+  },
+  "options_importLocalFile": {
+    "message": "Local file"
+  },
+  "options_importUrl": {
+    "message": "URL"
+  },
+  "options_importUrlPlaceholder": {
+    "message": "Paste bookmark HTML direct link"
+  },
+  "options_paste": {
+    "message": "Paste"
+  },
+  "options_pasteSuccess": {
+    "message": "Pasted"
+  },
+  "options_importMode": {
+    "message": "Import mode"
+  },
+  "options_importMerge": {
+    "message": "Merge import"
+  },
+  "options_importMergeDesc": {
+    "message": "Keep existing bookmarks, add imported bookmarks"
+  },
+  "options_importOverwrite": {
+    "message": "Overwrite import"
+  },
+  "options_importOverwriteDesc": {
+    "message": "Backup first → clear local → import, only show imported bookmarks"
+  },
+  "options_importTarget": {
+    "message": "Import to"
+  },
+  "options_newFolder": {
+    "message": "New folder"
+  },
+  "options_newFolderPlaceholder": {
+    "message": "Enter new folder name"
+  },
+  "options_createFolder": {
+    "message": "Create"
+  },
+  "options_noBookmarksSelected": {
+    "message": "Please select at least one bookmark"
+  },
+  "options_invalidUrl": {
+    "message": "Please enter a valid URL"
+  },
+  "options_downloading": {
+    "message": "Downloading..."
+  },
+  "options_parsing": {
+    "message": "Parsing..."
+  },
+  "options_configManagement": {
+    "message": "Config Management"
+  },
+  "options_exportConfig": {
+    "message": "Export config"
+  },
+  "options_importConfig": {
+    "message": "Import config"
+  },
+  "options_configExportSuccess": {
+    "message": "Config exported successfully"
+  },
+  "options_configExportFailed": {
+    "message": "Config export failed"
+  },
+  "options_configImportSuccess": {
+    "message": "Config imported successfully"
+  },
+  "options_configImportFailed": {
+    "message": "Config import failed"
+  },
+  "options_configImportConfirm": {
+    "message": "Importing config will overwrite current config, continue?"
+  },
+  "options_backupManagement": {
+    "message": "Backup Management"
+  },
+  "options_backupList": {
+    "message": "Backup list"
+  },
+  "options_noBackups": {
+    "message": "No backups"
+  },
+  "options_restore": {
+    "message": "Restore"
+  },
+  "options_delete": {
+    "message": "Delete"
+  },
+  "options_restoreConfirm": {
+    "message": "Are you sure you want to restore this backup?"
+  },
+  "options_restoreSuccess": {
+    "message": "Backup restored successfully"
+  },
+  "options_restoreFailed": {
+    "message": "Backup restore failed"
+  },
+  "options_restoreModalTitle": {
+    "message": "Restore backup"
+  },
+  "options_restoreMode": {
+    "message": "Restore mode"
+  },
+  "options_restoreMerge": {
+    "message": "Merge restore"
+  },
+  "options_restoreOverwrite": {
+    "message": "Overwrite restore"
+  },
+  "options_restoreTarget": {
+    "message": "Restore to"
+  },
+  "options_backupInfo": {
+    "message": "Backup info"
+  },
+  "options_backupTime": {
+    "message": "Backup time"
+  },
+  "options_backupCount": {
+    "message": "Bookmark count"
+  },
+  "options_operationLog": {
+    "message": "Operation Log"
+  },
+  "options_logList": {
+    "message": "Log list"
+  },
+  "options_noLogs": {
+    "message": "No logs"
+  },
+  "options_logSync": {
+    "message": "Sync"
+  },
+  "options_logImport": {
+    "message": "Import"
+  },
+  "options_logExport": {
+    "message": "Export"
+  },
+  "options_logClear": {
+    "message": "Clear"
+  },
+  "options_logBackup": {
+    "message": "Backup"
+  },
+  "options_logRestore": {
+    "message": "Restore"
+  },
+  "options_logSuccess": {
+    "message": "Success"
+  },
+  "options_logFailed": {
+    "message": "Failed"
+  },
+  "options_save": {
+    "message": "Save config and start sync"
+  },
+  "options_saving": {
+    "message": "Saving..."
+  },
+  "options_saveSuccess": {
+    "message": "Config saved"
+  },
+  "options_saveFailed": {
+    "message": "Save failed"
+  },
+  "options_firstSyncTitle": {
+    "message": "First sync"
+  },
+  "options_firstSyncDetecting": {
+    "message": "Detecting data state..."
+  },
+  "options_firstSyncLocalOnly": {
+    "message": "Local bookmarks detected, cloud empty, will auto-upload local to cloud"
+  },
+  "options_firstSyncCloudOnly": {
+    "message": "Cloud bookmarks detected, local empty, will auto-download cloud to local"
+  },
+  "options_firstSyncBoth": {
+    "message": "Both local and cloud have bookmarks, please select sync method"
+  },
+  "options_firstSyncUpload": {
+    "message": "Upload local to cloud"
+  },
+  "options_firstSyncDownload": {
+    "message": "Cloud overwrites local"
+  },
+  "options_firstSyncMerge": {
+    "message": "Merge both"
+  },
+  "options_firstSyncStart": {
+    "message": "Start sync"
+  },
+  "notify_syncSuccess": {
+    "message": "Sync success"
+  },
+  "notify_syncFailed": {
+    "message": "Sync failed"
+  },
+  "notify_updateAvailable": {
+    "message": "GeekMark new version available"
+  },
+  "notify_updateAvailableDesc": {
+    "message": "Current v$currentVersion$, latest v$latestVersion$, click to view changelog",
+    "placeholders": {
+      "currentVersion": {
+        "content": "$1"
+      },
+      "latestVersion": {
+        "content": "$2"
+      }
+    }
+  },
+  "notify_alreadyLatest": {
+    "message": "GeekMark is already latest"
+  },
+  "notify_alreadyLatestDesc": {
+    "message": "Current v$currentVersion$, no update needed",
+    "placeholders": {
+      "currentVersion": {
+        "content": "$1"
+      }
+    }
+  },
+  "notify_updateCheckFailed": {
+    "message": "Update check failed"
+  },
+  "log_syncStarted": {
+    "message": "Sync started"
+  },
+  "log_syncSuccess": {
+    "message": "Sync success"
+  },
+  "log_syncFailed": {
+    "message": "Sync failed"
+  },
+  "log_importSuccess": {
+    "message": "Import success"
+  },
+  "log_importFailed": {
+    "message": "Import failed"
+  },
+  "log_exportSuccess": {
+    "message": "Export success"
+  },
+  "log_exportFailed": {
+    "message": "Export failed"
+  },
+  "log_clearSuccess": {
+    "message": "Clear success"
+  },
+  "log_clearFailed": {
+    "message": "Clear failed"
+  },
+  "log_backupCreated": {
+    "message": "Backup created"
+  },
+  "log_restoreSuccess": {
+    "message": "Restore success"
+  },
+  "log_restoreFailed": {
+    "message": "Restore failed"
+  },
+  "error_invalidFile": {
+    "message": "File format cannot parse any bookmarks or folders. To protect local data, sync aborted."
+  },
+  "error_fileCorrupted": {
+    "message": "File integrity check failed"
+  },
+  "error_failsafeTriggered": {
+    "message": "Circuit breaker triggered: deletions exceed threshold, sync aborted"
+  },
+  "error_connectionFailed": {
+    "message": "Failed to connect to server"
+  },
+  "error_authFailed": {
+    "message": "Authentication failed, please check username and password"
+  },
+  "error_encryptionKeyMismatch": {
+    "message": "Key error, cannot decrypt file. All devices must use the same key."
+  },
+  "error_bookmarkNotFound": {
+    "message": "Bookmark not found"
+  },
+  "error_folderNotFound": {
+    "message": "Folder not found"
+  },
+  "privacy_policy": {
+    "message": "Privacy Policy"
+  },
+  "about": {
+    "message": "About"
+  },
+  "version": {
+    "message": "Version"
+  },
+  "options_subtitle": {
+    "message": "Sync browser bookmarks via WebDAV"
+  },
+  "options_urlPlaceholder": {
+    "message": "https://webdav.123pan.cn/webdav"
+  },
+  "options_usernamePlaceholder": {
+    "message": "Your username/phone"
+  },
+  "options_passwordPlaceholder": {
+    "message": "Your password"
+  },
+  "options_bookmarkFile": {
+    "message": "Bookmark file path"
+  },
+  "options_includeCredentials": {
+    "message": "Send browser cookies (usually not needed)"
+  },
+  "options_syncBehavior": {
+    "message": "Sync Behavior"
+  },
+  "options_loading": {
+    "message": "Loading..."
+  },
+  "options_strategySmartRecommended": {
+    "message": "Multi-device Smart Sync (Recommended)"
+  },
+  "options_advancedSettings": {
+    "message": "Advanced Settings"
+  },
+  "options_multiDeviceNote": {
+    "message": "Multi-device Note: "
+  },
+  "options_multiDeviceNoteDesc": {
+    "message": "All devices must use the exact same encryption key, otherwise bookmark files synced by other devices cannot be decrypted, causing sync failure. Ensure the key is consistent when changing devices."
+  },
+  "options_confirmEncryptionPlaceholder": {
+    "message": "Enter key again"
+  },
+  "options_languageAuto": {
+    "message": "Follow System"
+  },
+  "options_languageHint": {
+    "message": "Select the interface display language. \"Follow System\" automatically detects the browser language. Changes take effect immediately."
+  },
+  "options_copyDeviceId": {
+    "message": "Copy Device ID"
+  },
+  "options_saveHint": {
+    "message": "First save automatically detects local and cloud bookmark status and completes initial sync; subsequent saves only update configuration."
+  },
+  "options_configHint": {
+    "message": "Export configuration for backup or migration to other devices. The export file contains sensitive information such as server address, username, and password. Please keep it safe."
+  },
+  "options_bookmarkHint": {
+    "message": "Local bookmark import/export tools. Only operates on local bookmarks, unrelated to cloud sync."
+  },
+  "options_bookmarkHint2": {
+    "message": "Export/import supports selective checking; automatic backup before one-click clear to prevent accidental operations."
+  },
+  "options_backupHint": {
+    "message": "Automatically backs up local bookmarks before sync, keeping the latest 5 copies. Also automatically backs up before overwrite import. Can restore from backup."
+  },
+  "options_logHint": {
+    "message": "Recent 50 operation records (sync, import, export, etc.)."
+  },
+  "options_privacySummary": {
+    "message": "This extension does not collect any data or connect to any third-party servers. Your bookmark data is entirely under your control."
+  },
+  "options_privacyCorePrinciples": {
+    "message": "Core Principles:"
+  },
+  "options_privacyPrinciple1": {
+    "message": "• Does not collect any user data"
+  },
+  "options_privacyPrinciple2": {
+    "message": "• Does not connect to any third-party servers"
+  },
+  "options_privacyPrinciple3": {
+    "message": "• Does not send any telemetry"
+  },
+  "options_privacyPrinciple4": {
+    "message": "• All data is stored only on local devices and your own WebDAV server"
+  },
+  "options_privacyPrinciple5": {
+    "message": "• End-to-end encryption optional, key stored only locally"
+  },
+  "options_privacyContact": {
+    "message": "Contact:"
+  },
+  "options_privacyEmail": {
+    "message": "• Email: elegant_geek@163.com"
+  },
+  "options_privacyGithub": {
+    "message": "• GitHub: https://github.com/Kepsilent/GeekMark"
+  },
+  "options_viewPrivacyOnGithub": {
+    "message": "View full privacy policy on GitHub →"
+  },
+  "options_firstSyncBothTitle": {
+    "message": "Both local and cloud bookmarks detected"
+  },
+  "options_firstSyncBothDesc": {
+    "message": "Please select the initial sync method. This selection only applies to this sync; afterwards multi-device smart sync is used by default."
+  },
+  "options_firstSyncLocal": {
+    "message": "Local overwrites Cloud"
+  },
+  "options_firstSyncLocalDesc": {
+    "message": "Replace all cloud content with local bookmarks. Existing cloud bookmarks will be overwritten."
+  },
+  "options_firstSyncServer": {
+    "message": "Cloud overwrites Local"
+  },
+  "options_firstSyncServerDesc": {
+    "message": "Replace all local content with cloud bookmarks. Local bookmarks are automatically backed up before sync and can be restored."
+  },
+  "options_firstSyncMergeDesc": {
+    "message": "Merge and deduplicate bookmarks from both sides. Only adds, never deletes. Safest option, no bookmarks will be lost."
+  },
+  "options_recommended": {
+    "message": "Recommended"
+  }
 }

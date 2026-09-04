@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>极客云签 设置</title>
+  <title data-i18n="options_title">极客云签 - 设置</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -359,44 +359,44 @@
 </head>
 <body>
   <div class="container">
-    <h1>极客云签</h1>
-    <p class="subtitle">通过 WebDAV 同步浏览器书签</p>
+    <h1 data-i18n="popup_title">极客云签</h1>
+    <p class="subtitle" data-i18n="options_subtitle">通过 WebDAV 同步浏览器书签</p>
 
     <!-- 服务器设置 -->
     <div class="card">
-      <h2>服务器设置</h2>
+      <h2 data-i18n="options_serverSettings">服务器设置</h2>
       <div class="form-group">
-        <label for="url">WebDAV URL</label>
-        <input type="text" id="url" placeholder="https://webdav.123pan.cn/webdav">
+        <label for="url" data-i18n="options_serverUrl">WebDAV 服务器地址</label>
+        <input type="text" id="url" data-i18n-placeholder="options_urlPlaceholder" placeholder="https://webdav.123pan.cn/webdav">
         <div style="margin-top:8px;display:flex;gap:8px;">
-          <button type="button" class="btn-secondary" style="padding:6px 12px;font-size:12px;" id="fill123Btn">填充 123 云盘</button>
-          <button type="button" class="btn-secondary" style="padding:6px 12px;font-size:12px;" id="fillJianguoyunBtn">填充坚果云</button>
+          <button type="button" class="btn-secondary" style="padding:6px 12px;font-size:12px;" id="fill123Btn" data-i18n="options_fill123pan">填充 123 云盘</button>
+          <button type="button" class="btn-secondary" style="padding:6px 12px;font-size:12px;" id="fillJianguoyunBtn" data-i18n="options_fillJianguoyun">填充坚果云</button>
         </div>
       </div>
       <div class="form-group">
-        <label for="username">用户名</label>
-        <input type="text" id="username" placeholder="你的用户名/手机号">
+        <label for="username" data-i18n="options_username">用户名</label>
+        <input type="text" id="username" data-i18n-placeholder="options_usernamePlaceholder" placeholder="你的用户名/手机号">
       </div>
       <div class="form-group">
-        <label for="password">密码</label>
-        <input type="password" id="password" placeholder="你的密码">
+        <label for="password" data-i18n="options_password">密码</label>
+        <input type="password" id="password" data-i18n-placeholder="options_passwordPlaceholder" placeholder="你的密码">
       </div>
       <div class="form-group">
-        <label for="bookmark_file">书签文件路径</label>
+        <label for="bookmark_file" data-i18n="options_bookmarkFile">书签文件路径</label>
         <input type="text" id="bookmark_file" placeholder="bookmarks.html">
       </div>
       <div class="form-group">
-        <label for="webdav_folder">WebDAV 文件夹名称</label>
+        <label for="webdav_folder" data-i18n="options_webdavFolder">WebDAV 文件夹名称</label>
         <div style="display:flex;gap:8px;">
           <input type="text" id="webdav_folder" placeholder="Bookmarks" style="flex:1;">
-          <button type="button" id="checkFolderBtn" style="padding:8px 16px;background:#f0f0f0;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:13px;white-space:nowrap;">检查文件夹</button>
-          <button type="button" id="testBtn" style="padding:8px 16px;background:#f0f0f0;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:13px;white-space:nowrap;">测试连接</button>
+          <button type="button" id="checkFolderBtn" style="padding:8px 16px;background:#f0f0f0;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:13px;white-space:nowrap;" data-i18n="options_checkFolder">检查文件夹</button>
+          <button type="button" id="testBtn" style="padding:8px 16px;background:#f0f0f0;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:13px;white-space:nowrap;" data-i18n="options_testConnection">测试连接</button>
         </div>
-        <p class="hint" style="margin-left:0;margin-top:4px;">书签文件会存放在 WebDAV 目录下的此文件夹中，默认以插件名命名，可自定义。点击"检查文件夹"可确认该名称是否已存在，点击"测试连接"可验证服务器连通性。</p>
+        <p class="hint" style="margin-left:0;margin-top:4px;" data-i18n="options_webdavFolderHint">书签文件会存放在 WebDAV 目录下的此文件夹中，默认以插件名命名，可自定义。点击"检查文件夹"可确认该名称是否已存在，点击"测试连接"可验证服务器连通性。</p>
       </div>
       <div class="checkbox-group">
         <input type="checkbox" id="includeCredentials">
-        <label for="includeCredentials">发送浏览器 cookies（一般不需要）</label>
+        <label for="includeCredentials" data-i18n="options_includeCredentials">发送浏览器 cookies（一般不需要）</label>
       </div>
       <!-- 服务器设置提示条：测试连接 / 检查文件夹结果都显示在这里 -->
       <div class="status" id="status" style="margin-top:12px;"></div>
@@ -404,95 +404,95 @@
 
     <!-- 同步行为 -->
     <div class="card">
-      <h2>同步行为</h2>
+      <h2 data-i18n="options_syncBehavior">同步行为</h2>
       <div class="form-group">
-        <label for="localRoot">要同步的书签文件夹</label>
+        <label for="localRoot" data-i18n="options_localRoot">要同步的书签文件夹</label>
         <select id="localRoot" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
-          <option value="">加载中...</option>
+          <option value="" data-i18n="options_loading">加载中...</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="syncStrategy">同步策略</label>
+        <label for="syncStrategy" data-i18n="options_syncStrategy">同步策略</label>
         <select id="syncStrategy" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
-          <option value="merge">多设备智能同步（推荐）</option>
-          <option value="local">本地覆盖云端</option>
-          <option value="server">云端覆盖本地</option>
+          <option value="merge" data-i18n="options_strategySmartRecommended">多设备智能同步（推荐）</option>
+          <option value="local" data-i18n="options_strategyLocal">本地覆盖云端</option>
+          <option value="server" data-i18n="options_strategyCloud">云端覆盖本地</option>
         </select>
       </div>
       <div class="checkbox-group">
         <input type="checkbox" id="syncOnStartupEnabled">
-        <label for="syncOnStartupEnabled">浏览器启动时同步</label>
+        <label for="syncOnStartupEnabled" data-i18n="options_syncOnStartup">浏览器启动时同步</label>
       </div>
       <div class="checkbox-group">
         <input type="checkbox" id="syncIntervalEnabled">
-        <label for="syncIntervalEnabled">定时同步</label>
+        <label for="syncIntervalEnabled" data-i18n="options_syncInterval">定时同步</label>
       </div>
       <div class="form-group">
-        <label for="syncInterval">同步间隔（分钟）</label>
+        <label for="syncInterval" data-i18n="options_syncIntervalMinutes">同步间隔（分钟）</label>
         <input type="number" id="syncInterval" min="1" max="1440" value="15">
       </div>
       <div class="checkbox-group">
         <input type="checkbox" id="syncOnChangeEnabled">
-        <label for="syncOnChangeEnabled">书签变更时自动同步</label>
+        <label for="syncOnChangeEnabled" data-i18n="options_syncOnChange">书签变更时自动同步</label>
       </div>
     </div>
 
     <!-- 高级设置 -->
     <div class="card">
-      <h2>高级设置</h2>
+      <h2 data-i18n="options_advancedSettings">高级设置</h2>
 
       <div class="form-group">
-        <label for="encryptionPassphrase">端到端加密密钥</label>
-        <input type="password" id="encryptionPassphrase" placeholder="留空表示不加密，8-16位" maxlength="16" autocomplete="off">
-        <p class="hint">设置后书签文件上传前会用 AES-256 加密，云端只存密文。密钥仅保存在本地，<strong style="color:#e74c3c;">忘记密钥无法恢复加密数据</strong>。</p>
+        <label for="encryptionPassphrase" data-i18n="options_encryption">端到端加密密钥</label>
+        <input type="password" id="encryptionPassphrase" data-i18n-placeholder="options_encryptionPlaceholder" placeholder="留空表示不加密，8-16位" maxlength="16" autocomplete="off">
+        <p class="hint" data-i18n="options_encryptionHint">设置后书签文件上传前会用 AES-256 加密，云端只存密文。密钥仅保存在本地，<strong style="color:#e74c3c;">忘记密钥无法恢复加密数据</strong>。</p>
         <div style="margin-top:8px;padding:10px 12px;background:#fff3cd;border:1px solid #ffc107;border-radius:6px;font-size:12px;color:#856404;line-height:1.6;">
-          <strong>多设备注意：</strong>所有设备必须使用<strong>完全相同的加密密钥</strong>，否则无法解密对方同步的书签文件，导致同步失败。更换设备时请确保密钥一致。
+          <strong data-i18n="options_multiDeviceNote">多设备注意：</strong><span data-i18n="options_multiDeviceNoteDesc">所有设备必须使用完全相同的加密密钥，否则无法解密对方同步的书签文件，导致同步失败。更换设备时请确保密钥一致。</span>
         </div>
       </div>
 
       <div class="form-group" id="confirmPassphraseGroup" style="display:none;">
-        <label for="confirmPassphrase">确认加密密钥</label>
-        <input type="password" id="confirmPassphrase" placeholder="再次输入密钥" maxlength="16" autocomplete="off">
+        <label for="confirmPassphrase" data-i18n="options_confirmEncryption">确认加密密钥</label>
+        <input type="password" id="confirmPassphrase" data-i18n-placeholder="options_confirmEncryptionPlaceholder" placeholder="再次输入密钥" maxlength="16" autocomplete="off">
         <p id="passphraseStrength" class="hint" style="margin-top:6px;"></p>
       </div>
 
       <div class="form-group">
-        <label for="failsafeThreshold">熔断保护阈值（%）</label>
+        <label for="failsafeThreshold" data-i18n="options_failsafeThreshold">熔断保护阈值（%）</label>
         <input type="number" id="failsafeThreshold" min="10" max="100" value="50">
-        <p class="hint">当本次同步要删除的书签超过此比例时，自动中止同步，防止数据丢失。默认 50%。</p>
+        <p class="hint" data-i18n="options_failsafeHint">当本次同步要删除的书签超过此比例时，自动中止同步，防止数据丢失。默认 50%。</p>
       </div>
 
       <div class="checkbox-group">
         <input type="checkbox" id="notifyOnSuccess">
-        <label for="notifyOnSuccess">同步成功时通知</label>
+        <label for="notifyOnSuccess" data-i18n="options_notifyOnSuccess">同步成功时通知</label>
       </div>
       <div class="checkbox-group">
         <input type="checkbox" id="notifyOnFailure">
-        <label for="notifyOnFailure">同步失败时通知</label>
+        <label for="notifyOnFailure" data-i18n="options_notifyOnFailure">同步失败时通知</label>
       </div>
       <div class="form-group" style="margin-top:12px;">
-        <label>深色模式</label>
+        <label data-i18n="options_darkMode">深色模式</label>
         <select id="darkMode" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
-          <option value="auto">跟随系统</option>
-          <option value="light">浅色模式</option>
-          <option value="dark">深色模式</option>
+          <option value="auto" data-i18n="options_darkAuto">跟随系统</option>
+          <option value="light" data-i18n="options_darkLight">浅色模式</option>
+          <option value="dark" data-i18n="options_darkDark">深色模式</option>
         </select>
-        <p class="hint">选择界面显示模式，"跟随系统"会自动检测系统深色模式设置。</p>
+        <p class="hint" data-i18n="options_darkHint">选择界面显示模式，"跟随系统"会自动检测系统深色模式设置。</p>
       </div>
       <div class="form-group" style="margin-top:12px;">
-        <label>语言</label>
+        <label>语言 / Language</label>
         <select id="languageSelect" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
-          <option value="">跟随系统</option>
+          <option value="" data-i18n="options_languageAuto">跟随系统</option>
           <option value="zh_CN">简体中文</option>
           <option value="en">English</option>
         </select>
-        <p class="hint">选择界面显示语言，"跟随系统"会自动检测浏览器语言。切换后立即生效。</p>
+        <p class="hint" data-i18n="options_languageHint">选择界面显示语言，"跟随系统"会自动检测浏览器语言。切换后立即生效。</p>
       </div>
       <div class="form-group" style="margin-top:12px;">
-        <label>当前设备 ID</label>
+        <label data-i18n="options_deviceId">当前设备 ID</label>
         <div style="display:flex;gap:8px;align-items:center;">
-          <input type="text" id="deviceIdDisplay" readonly style="flex:1;background:#f5f5f5;color:#666;font-family:monospace;font-size:12px;" placeholder="加载中...">
-          <button class="btn-secondary" id="copyDeviceIdBtn" title="复制设备ID" style="padding:6px 8px;display:flex;align-items:center;justify-content:center;min-width:32px;height:32px;">
+          <input type="text" id="deviceIdDisplay" readonly style="flex:1;background:#f5f5f5;color:#666;font-family:monospace;font-size:12px;" data-i18n-placeholder="options_loading" placeholder="加载中...">
+          <button class="btn-secondary" id="copyDeviceIdBtn" data-i18n-title="options_copyDeviceId" title="复制设备ID" style="padding:6px 8px;display:flex;align-items:center;justify-content:center;min-width:32px;height:32px;">
             <svg id="copyIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -502,88 +502,88 @@
             </svg>
           </button>
         </div>
-        <p class="hint">每台设备唯一标识，用于多设备同步时识别变更来源。重装扩展会生成新 ID。</p>
+        <p class="hint" data-i18n="options_deviceIdHint">每台设备唯一标识，用于多设备同步时识别变更来源。重装扩展会生成新 ID。</p>
       </div>
       <div class="checkbox-group" style="margin-top:12px;">
         <input type="checkbox" id="checkUpdatesEnabled">
-        <label for="checkUpdatesEnabled">自动检查更新（每天检查 GitHub Releases 最新版本）</label>
+        <label for="checkUpdatesEnabled" data-i18n="options_checkUpdates">自动检查更新（每天检查 GitHub Releases 最新版本）</label>
       </div>
       <div style="margin-top:8px;">
-        <button type="button" class="btn-secondary" id="checkUpdateBtn" style="padding:8px 16px;font-size:13px;">手动检查更新</button>
+        <button type="button" class="btn-secondary" id="checkUpdateBtn" style="padding:8px 16px;font-size:13px;" data-i18n="options_checkUpdateNow">手动检查更新</button>
       </div>
     </div>
 
     <!-- 操作按钮 -->
     <div class="button-group">
-      <button class="btn-primary" id="saveBtn">保存配置并开始同步</button>
+      <button class="btn-primary" id="saveBtn" data-i18n="options_save">保存配置并开始同步</button>
     </div>
-    <p class="hint" style="margin-top:8px;">首次保存会自动检测本地和云端书签状态并完成首次同步；之后保存仅更新配置。</p>
+    <p class="hint" style="margin-top:8px;" data-i18n="options_saveHint">首次保存会自动检测本地和云端书签状态并完成首次同步；之后保存仅更新配置。</p>
 
     <!-- 配置管理 -->
     <div class="card">
-      <h2>配置管理</h2>
-      <p style="font-size:13px;color:#666;margin-bottom:16px;">导出配置用于备份或迁移到其他设备。导出文件包含服务器地址、用户名、密码等敏感信息，请妥善保管。</p>
+      <h2 data-i18n="options_configManagement">配置管理</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;" data-i18n="options_configHint">导出配置用于备份或迁移到其他设备。导出文件包含服务器地址、用户名、密码等敏感信息，请妥善保管。</p>
       <div class="button-group">
-        <button class="btn-secondary" id="exportConfigBtn">导出配置</button>
-        <button class="btn-secondary" id="importConfigBtn">导入配置</button>
+        <button class="btn-secondary" id="exportConfigBtn" data-i18n="options_exportConfig">导出配置</button>
+        <button class="btn-secondary" id="importConfigBtn" data-i18n="options_importConfig">导入配置</button>
         <input type="file" id="importConfigFile" accept=".json" style="display:none;">
       </div>
     </div>
 
     <!-- 书签管理（本地操作，与云端无关） -->
     <div class="card">
-      <h2>书签管理</h2>
-      <p style="font-size:13px;color:#666;margin-bottom:16px;">本地书签的导入导出工具，仅操作本地书签，与云端同步无关。</p>
+      <h2 data-i18n="options_bookmarkManagement">书签管理</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;" data-i18n="options_bookmarkHint">本地书签的导入导出工具，仅操作本地书签，与云端同步无关。</p>
       <div class="button-group" style="flex-wrap:wrap;">
-        <button class="btn-secondary" id="exportBookmarksBtn">导出书签</button>
-        <button class="btn-secondary" id="importBookmarksBtn">导入书签</button>
-        <button class="btn-secondary" id="clearBookmarksBtn" style="color:#F44336;border-color:#F44336;">一键清空本地书签</button>
+        <button class="btn-secondary" id="exportBookmarksBtn" data-i18n="options_exportBookmarks">导出书签</button>
+        <button class="btn-secondary" id="importBookmarksBtn" data-i18n="options_importBookmarks">导入书签</button>
+        <button class="btn-secondary" id="clearBookmarksBtn" style="color:#F44336;border-color:#F44336;" data-i18n="options_clearBookmarks">一键清空本地书签</button>
         <input type="file" id="importBookmarksFile" accept=".html,.htm" style="display:none;">
       </div>
-      <p class="hint" style="margin-top:8px;">导出/导入支持选择性勾选；一键清空前会自动备份，防止误操作。</p>
+      <p class="hint" style="margin-top:8px;" data-i18n="options_bookmarkHint2">导出/导入支持选择性勾选；一键清空前会自动备份，防止误操作。</p>
     </div>
 
     <!-- 备份管理 -->
     <div class="card">
-      <h2>备份管理</h2>
-      <p style="font-size:13px;color:#666;margin-bottom:16px;">同步前自动备份本地书签，保留最近 5 份。覆盖式导入前也会自动备份。可从备份恢复。</p>
+      <h2 data-i18n="options_backupManagement">备份管理</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;" data-i18n="options_backupHint">同步前自动备份本地书签，保留最近 5 份。覆盖式导入前也会自动备份。可从备份恢复。</p>
       <div id="backupList">
-        <p style="font-size:13px;color:#999;">加载中...</p>
+        <p style="font-size:13px;color:#999;" data-i18n="options_loading">加载中...</p>
       </div>
     </div>
 
     <!-- 操作日志 -->
     <div class="card">
-      <h2>操作日志</h2>
-      <p style="font-size:13px;color:#666;margin-bottom:16px;">最近 50 次操作记录（同步、导入、导出等）。</p>
+      <h2 data-i18n="options_operationLog">操作日志</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px;" data-i18n="options_logHint">最近 50 次操作记录（同步、导入、导出等）。</p>
       <div id="logList">
-        <p style="font-size:13px;color:#999;">加载中...</p>
+        <p style="font-size:13px;color:#999;" data-i18n="options_loading">加载中...</p>
       </div>
     </div>
 
     <!-- 隐私政策 -->
     <div class="card">
-      <h2>隐私政策</h2>
+      <h2 data-i18n="privacy_policy">隐私政策</h2>
       <p style="font-size:13px;color:#666;margin-bottom:16px;">
-        <strong>本扩展不收集任何数据，不连接任何第三方服务器，您的书签数据完全由您自己掌控。</strong>
+        <strong data-i18n="options_privacySummary">本扩展不收集任何数据，不连接任何第三方服务器，您的书签数据完全由您自己掌控。</strong>
       </p>
       <div style="background:#f8f9fa;border-radius:8px;padding:16px;margin-bottom:16px;">
         <p style="font-size:13px;color:#444;line-height:1.8;margin:0 0 12px;">
-          <strong>核心原则：</strong><br>
-          • 不收集任何用户数据<br>
-          • 不连接任何第三方服务器<br>
-          • 不发送任何遥测信息<br>
-          • 所有数据仅存储在本地设备和您自己的 WebDAV 服务器上<br>
-          • 端到端加密可选，密钥仅保存在本地
+          <strong data-i18n="options_privacyCorePrinciples">核心原则：</strong><br>
+          <span data-i18n="options_privacyPrinciple1">• 不收集任何用户数据</span><br>
+          <span data-i18n="options_privacyPrinciple2">• 不连接任何第三方服务器</span><br>
+          <span data-i18n="options_privacyPrinciple3">• 不发送任何遥测信息</span><br>
+          <span data-i18n="options_privacyPrinciple4">• 所有数据仅存储在本地设备和您自己的 WebDAV 服务器上</span><br>
+          <span data-i18n="options_privacyPrinciple5">• 端到端加密可选，密钥仅保存在本地</span>
         </p>
         <p style="font-size:13px;color:#444;line-height:1.8;margin:0 0 12px;">
-          <strong>联系方式：</strong><br>
-          • 邮箱：elegant_geek@163.com<br>
-          • GitHub：https://github.com/Kepsilent/GeekMark
+          <strong data-i18n="options_privacyContact">联系方式：</strong><br>
+          <span data-i18n="options_privacyEmail">• 邮箱：elegant_geek@163.com</span><br>
+          <span data-i18n="options_privacyGithub">• GitHub：https://github.com/Kepsilent/GeekMark</span>
         </p>
       </div>
       <a href="https://github.com/Kepsilent/GeekMark/blob/master/privacy.md" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 20px;background:#2196F3;color:#fff;text-decoration:none;border-radius:8px;font-size:14px;font-weight:500;transition:background 0.2s;" onmouseover="this.style.background='#1976D2'" onmouseout="this.style.background='#2196F3'">
-        在 GitHub 查看完整隐私政策 →
+        <span data-i18n="options_viewPrivacyOnGithub">在 GitHub 查看完整隐私政策 →</span>
       </a>
     </div>
   </div>
@@ -591,8 +591,8 @@
   <!-- 首次同步方向选择模态框（仅当本地和云端都有书签时弹出） -->
   <div class="modal-overlay" id="firstSyncModal">
     <div class="modal">
-      <h2 style="margin-bottom:8px;">检测到本地和云端都有书签</h2>
-      <p style="font-size:13px;color:#666;margin-bottom:20px;">请选择首次同步的方式，此选择仅用于本次同步，之后默认使用多设备智能同步。</p>
+      <h2 style="margin-bottom:8px;" data-i18n="options_firstSyncBothTitle">检测到本地和云端都有书签</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:20px;" data-i18n="options_firstSyncBothDesc">请选择首次同步的方式，此选择仅用于本次同步，之后默认使用多设备智能同步。</p>
 
       <div class="first-sync-option" id="chooseLocal">
         <div class="option-icon">
@@ -603,8 +603,8 @@
           </svg>
         </div>
         <div class="option-content">
-          <div class="option-title">本地覆盖云端</div>
-          <div class="option-desc">用本地书签替换云端全部内容，云端原有书签会被覆盖</div>
+          <div class="option-title" data-i18n="options_firstSyncLocal">本地覆盖云端</div>
+          <div class="option-desc" data-i18n="options_firstSyncLocalDesc">用本地书签替换云端全部内容，云端原有书签会被覆盖</div>
         </div>
       </div>
 
@@ -617,8 +617,8 @@
           </svg>
         </div>
         <div class="option-content">
-          <div class="option-title">云端覆盖本地</div>
-          <div class="option-desc">用云端书签替换本地全部内容，同步前会自动备份本地书签，可恢复</div>
+          <div class="option-title" data-i18n="options_firstSyncServer">云端覆盖本地</div>
+          <div class="option-desc" data-i18n="options_firstSyncServerDesc">用云端书签替换本地全部内容，同步前会自动备份本地书签，可恢复</div>
         </div>
       </div>
 
@@ -630,10 +630,10 @@
           </svg>
         </div>
         <div class="option-content">
-          <div class="option-title">多设备智能同步（推荐）</div>
-          <div class="option-desc">两边书签合并去重，只增不删，最安全，不会丢失任何书签</div>
+          <div class="option-title" data-i18n="options_firstSyncMerge">多设备智能同步（推荐）</div>
+          <div class="option-desc" data-i18n="options_firstSyncMergeDesc">两边书签合并去重，只增不删，最安全，不会丢失任何书签</div>
         </div>
-        <span class="recommend-badge">推荐</span>
+        <span class="recommend-badge" data-i18n="options_recommended">推荐</span>
       </div>
     </div>
   </div>
@@ -646,15 +646,15 @@
   <div class="modal-overlay" id="bookmarkModal" style="display:none;">
     <div class="modal" style="max-width:600px;width:90%;max-height:80vh;display:flex;flex-direction:column;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <h2 id="bookmarkModalTitle" style="margin:0;font-size:18px;">导出书签</h2>
+        <h2 id="bookmarkModalTitle" style="margin:0;font-size:18px;" data-i18n="options_exportBookmarks">导出书签</h2>
         <span id="bookmarkModalStep" style="font-size:12px;color:#999;"></span>
       </div>
       <div id="bookmarkModalContent" style="flex:1;overflow-y:auto;min-height:200px;"></div>
       <div id="bookmarkModalFooter" style="margin-top:16px;padding-top:12px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;">
         <span id="bookmarkModalInfo" style="font-size:13px;color:#666;"></span>
         <div>
-          <button class="btn-secondary" id="bookmarkModalCancel" style="margin-right:8px;">取消</button>
-          <button class="btn-primary" id="bookmarkModalConfirm">确认</button>
+          <button class="btn-secondary" id="bookmarkModalCancel" style="margin-right:8px;" data-i18n="options_cancel">取消</button>
+          <button class="btn-primary" id="bookmarkModalConfirm" data-i18n="options_confirm">确认</button>
         </div>
       </div>
     </div>
