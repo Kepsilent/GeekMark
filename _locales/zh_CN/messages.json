@@ -848,5 +848,8 @@
   },
   "options_recommended": {
     "message": "推荐"
+  },
+  "popup_totalBookmarks": {
+    "message": "书签总数"
   }
 }

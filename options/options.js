@@ -456,7 +456,8 @@ function renderBookmarkTree(nodes, container, level = 0) {
     // 复选框
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'
-    checkbox.style.cssText = 'margin-right:6px;vertical-align:middle;'
+    checkbox.id = 'cb_' + (node.id || node.url).replace(/[^a-zA-Z0-9]/g, '_')
+    checkbox.style.cssText = 'margin-right:6px;vertical-align:middle;width:16px;height:16px;cursor:pointer;position:relative;z-index:2;'
     checkbox.dataset.nodeId = node.id || node.url
     checkbox.dataset.isFolder = isFolder
 
@@ -469,10 +470,11 @@ function renderBookmarkTree(nodes, container, level = 0) {
       icon.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M4 1.5h5.5a2 2 0 0 1 2 2V14.5L8 12l-3.5 2.5V1.5z" stroke="#4CAF50" stroke-width="1.2" stroke-linejoin="round" fill="rgba(76,175,80,0.1)"/></svg>'
     }
 
-    // 标题
-    const label = document.createElement('span')
+    // 标题（用真正的 label 元素，关联 checkbox，点击文字也能勾选）
+    const label = document.createElement('label')
+    label.htmlFor = checkbox.id
     label.textContent = node.title || (isFolder ? '(无标题文件夹)' : node.url)
-    label.style.cssText = `font-size:13px;cursor:pointer;${isFolder ? 'font-weight:500;color:#333;' : 'color:#555;'}`
+    label.style.cssText = `font-size:13px;cursor:pointer;${isFolder ? 'font-weight:500;color:#333;' : 'color:#555;'}display:inline;vertical-align:middle;`
 
     // 文件夹可展开/折叠
     if (isFolder && node.children && node.children.length > 0) {

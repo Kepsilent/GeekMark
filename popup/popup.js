@@ -264,6 +264,9 @@ async function loadState() {
     // 设置完整，显示同步内容
     showSetupCard(false)
 
+    // 显示书签总数
+    updateTotalBookmarks()
+
     // 显示暂停状态
     const paused = state.settings && state.settings.syncPaused
     document.getElementById('pauseSync').checked = paused === true
@@ -359,6 +362,27 @@ async function loadState() {
     }
   } catch (e) {
     console.error('加载状态失败:', e)
+  }
+}
+
+/**
+ * 更新书签总数显示
+ */
+async function updateTotalBookmarks() {
+  try {
+    const tree = await chrome.bookmarks.getTree()
+    let count = 0
+    function countNodes(nodes) {
+      for (const node of nodes) {
+        if (node.url) count++ // 只有书签（有url）才计数，文件夹不算
+        if (node.children) countNodes(node.children)
+      }
+    }
+    countNodes(tree)
+    const el = document.getElementById('totalBookmarks')
+    if (el) el.textContent = count.toLocaleString()
+  } catch (e) {
+    console.error('获取书签总数失败:', e)
   }
 }
 
