@@ -22,6 +22,10 @@ const MAX_CHANGE_LOG_ENTRIES = 1000    // 变更日志最大保留条数
 const CHANGE_LOG_RETENTION_MS = 90 * 24 * 60 * 60 * 1000  // 变更日志保留90天
 const CONCURRENT_CHANGES = 5  // 应用变更时的并发数
 
+// 同步时排除的文件夹列表（浏览器特有文件夹，同步会导致 bug）
+// Quick Access 是 QUETTA 浏览器独有的快速访问文件夹，同步它会导致重复创建等问题
+const EXCLUDED_FOLDERS = ['Quick Access']
+
 // ============================================================
 // 状态管理
 // ============================================================
@@ -369,7 +373,8 @@ async function syncAccount(overrideStrategy = null) {
       // 策略：本地覆盖云端 — 直接上传，不下载不合并
       // ============================================================
       console.log('[极客云签] 策略：本地覆盖云端')
-      const html = htmlSerializer.serialize([selectedFolder])
+      const filteredFolder = filterExcludedFolders(selectedFolder)
+      const html = htmlSerializer.serialize([filteredFolder])
       const contentHash = await computeContentHash(html)
       if (contentHash && contentHash === syncState.lastUploadHash) {
         console.log('[Webdav-BookmarkSync] 书签内容无变化，跳过上传')
@@ -394,7 +399,7 @@ async function syncAccount(overrideStrategy = null) {
         }
 
         await backupBookmarks(selectedFolder)
-        const serverItems = htmlSerializer.deserialize(serverHtml)
+        const serverItems = htmlSerializer.deserialize(serverHtml).filter(item => !isInExcludedFolder(item.folder))
 
         // 清空本地选中文件夹下的所有内容
         const children = await chrome.bookmarks.getChildren(selectedFolder.id)
@@ -453,7 +458,7 @@ async function syncAccount(overrideStrategy = null) {
           throw new Error(`服务器书签文件完整性校验失败：${validation.reason}。为保护本地数据，已中止同步。`)
         }
         await backupBookmarks(selectedFolder)
-        const serverItems = htmlSerializer.deserialize(serverHtml)
+        const serverItems = htmlSerializer.deserialize(serverHtml).filter(item => !isInExcludedFolder(item.folder))
         serverMap = collectServerBookmarkInfo(serverItems)
       }
 
@@ -483,7 +488,7 @@ async function syncAccount(overrideStrategy = null) {
       // 5. 全量合并新增书签（方案C：本地删除了的不加回来）
       let addedCount = 0
       if (serverHtml) {
-        const serverItems = htmlSerializer.deserialize(serverHtml)
+        const serverItems = htmlSerializer.deserialize(serverHtml).filter(item => !isInExcludedFolder(item.folder))
         // 按文件夹分组
         const folderMap = new Map()
         for (const item of serverItems) {
@@ -616,7 +621,8 @@ async function syncAccount(overrideStrategy = null) {
       syncState.currentPhase = 'uploading'
       const updatedTree = await chrome.bookmarks.getTree()
       const updatedFolder = findFolderById(updatedTree, settings.localRoot)
-      const html = htmlSerializer.serialize([updatedFolder])
+      const filteredUpdatedFolder = filterExcludedFolders(updatedFolder)
+      const html = htmlSerializer.serialize([filteredUpdatedFolder])
 
       // 9. 合并变更日志（Set去重，排序，清理）
       const allLocalChangesForMerge = allLocalChanges.map(c => ({
@@ -1339,6 +1345,51 @@ async function mergeBookmarks(selectedFolder, serverItems, settings) {
 }
 
 /**
+ * 过滤掉需要排除的文件夹（深拷贝树并移除排除的文件夹）
+ * 用于序列化时排除浏览器特有文件夹（如 QUETTA 的 Quick Access）
+ * @param {Object} folder - 书签文件夹节点
+ * @param {Array} excludedNames - 需要排除的文件夹名称列表
+ * @returns {Object} 过滤后的文件夹节点（深拷贝）
+ */
+function filterExcludedFolders(folder, excludedNames = EXCLUDED_FOLDERS) {
+  // 深拷贝，避免修改原始树
+  const filtered = {
+    ...folder,
+    children: []
+  }
+  
+  if (folder.children) {
+    for (const child of folder.children) {
+      // 如果是文件夹且名称在排除列表中，跳过
+      if (!child.url && excludedNames.includes(child.title)) {
+        console.log(`[极客云签] 跳过排除文件夹: ${child.title}`)
+        continue
+      }
+      // 递归处理子节点
+      if (child.children) {
+        filtered.children.push(filterExcludedFolders(child, excludedNames))
+      } else {
+        filtered.children.push({ ...child })
+      }
+    }
+  }
+  
+  return filtered
+}
+
+/**
+ * 检查书签的文件夹路径是否在排除列表中
+ * @param {string} folderPath - 文件夹路径（如 "Quick Access/子文件夹"）
+ * @param {Array} excludedNames - 需要排除的文件夹名称列表
+ * @returns {boolean} 是否在排除列表中
+ */
+function isInExcludedFolder(folderPath, excludedNames = EXCLUDED_FOLDERS) {
+  if (!folderPath) return false
+  const parts = folderPath.split('/').filter(p => p.trim())
+  return parts.some(part => excludedNames.includes(part))
+}
+
+/**
  * 确保文件夹路径存在，不存在则创建
  */
 async function ensureFolderExists(parentId, folderNames) {
@@ -1818,10 +1869,16 @@ async function onBookmarkChange(localId, details) {
         if (!isBookmark(node)) {
           // 文件夹新增 → 记录 folder_create
           const parentPath = await getFolderPath(node.parentId)
-          await addPendingChange('folder_create', {
-            folderPath: parentPath ? parentPath + '/' + node.title : node.title,
-            title: node.title,
-          })
+          const folderPath = parentPath ? parentPath + '/' + node.title : node.title
+          // 排除浏览器特有文件夹（如 QUETTA 的 Quick Access），不同步这些文件夹
+          if (!EXCLUDED_FOLDERS.includes(node.title) && !isInExcludedFolder(parentPath)) {
+            await addPendingChange('folder_create', {
+              folderPath,
+              title: node.title,
+            })
+          } else {
+            console.log(`[极客云签] 跳过排除文件夹的创建记录: ${folderPath}`)
+          }
         }
         // 书签新增不记录（全量合并处理）
         break
@@ -1839,27 +1896,33 @@ async function onBookmarkChange(localId, details) {
         } else {
           // 文件夹删除 → 记录 folder_delete + 递归记录里面所有书签的 delete
           const parentPath = await getFolderPath(details.removeInfo.parentId)
-          await addPendingChange('folder_delete', {
-            folderPath: parentPath ? parentPath + '/' + node.title : node.title,
-            title: node.title,
-          })
-          // 递归收集文件夹里所有书签并记录删除（核心修复：防止越删越多）
-          const bookmarksToDelete = []
-          const collectBookmarks = (n) => {
-            if (isBookmark(n)) {
-              bookmarksToDelete.push({ url: n.url, title: n.title })
-            } else if (n.children) {
-              n.children.forEach(collectBookmarks)
+          const folderPath = parentPath ? parentPath + '/' + node.title : node.title
+          // 排除浏览器特有文件夹（如 QUETTA 的 Quick Access），不同步这些文件夹
+          if (!EXCLUDED_FOLDERS.includes(node.title) && !isInExcludedFolder(parentPath)) {
+            await addPendingChange('folder_delete', {
+              folderPath,
+              title: node.title,
+            })
+            // 递归收集文件夹里所有书签并记录删除（核心修复：防止越删越多）
+            const bookmarksToDelete = []
+            const collectBookmarks = (n) => {
+              if (isBookmark(n)) {
+                bookmarksToDelete.push({ url: n.url, title: n.title })
+              } else if (n.children) {
+                n.children.forEach(collectBookmarks)
+              }
             }
+            if (node.children) {
+              node.children.forEach(collectBookmarks)
+            }
+            // 批量记录删除
+            for (const bm of bookmarksToDelete) {
+              await addPendingChange('delete', bm)
+            }
+            console.log(`[极客云签] 文件夹删除，递归记录 ${bookmarksToDelete.length} 个书签删除`)
+          } else {
+            console.log(`[极客云签] 跳过排除文件夹的删除记录: ${folderPath}`)
           }
-          if (node.children) {
-            node.children.forEach(collectBookmarks)
-          }
-          // 批量记录删除
-          for (const bm of bookmarksToDelete) {
-            await addPendingChange('delete', bm)
-          }
-          console.log(`[极客云签] 文件夹删除，递归记录 ${bookmarksToDelete.length} 个书签删除`)
         }
         break
       }
@@ -1878,12 +1941,19 @@ async function onBookmarkChange(localId, details) {
           } else {
             // 文件夹更名 → 记录 folder_rename
             const parentPath = await getFolderPath(node.parentId)
-            await addPendingChange('folder_rename', {
-              oldFolderPath: parentPath ? parentPath + '/' + details.changeInfo.title : details.changeInfo.title,
-              newFolderPath: parentPath ? parentPath + '/' + node.title : node.title,
-              oldTitle: details.changeInfo.title,
-              newTitle: node.title,
-            })
+            const oldFolderPath = parentPath ? parentPath + '/' + details.changeInfo.title : details.changeInfo.title
+            const newFolderPath = parentPath ? parentPath + '/' + node.title : node.title
+            // 排除浏览器特有文件夹（如 QUETTA 的 Quick Access），不同步这些文件夹
+            if (!EXCLUDED_FOLDERS.includes(node.title) && !EXCLUDED_FOLDERS.includes(details.changeInfo.title) && !isInExcludedFolder(parentPath)) {
+              await addPendingChange('folder_rename', {
+                oldFolderPath,
+                newFolderPath,
+                oldTitle: details.changeInfo.title,
+                newTitle: node.title,
+              })
+            } else {
+              console.log(`[极客云签] 跳过排除文件夹的更名记录: ${oldFolderPath} -> ${newFolderPath}`)
+            }
           }
         }
         break
@@ -1903,11 +1973,18 @@ async function onBookmarkChange(localId, details) {
           })
         } else {
           // 文件夹移动 → 记录 folder_move
-          await addPendingChange('folder_move', {
-            oldFolderPath: oldPath ? oldPath + '/' + node.title : node.title,
-            newFolderPath: newPath ? newPath + '/' + node.title : node.title,
-            title: node.title,
-          })
+          const oldFolderPath = oldPath ? oldPath + '/' + node.title : node.title
+          const newFolderPath = newPath ? newPath + '/' + node.title : node.title
+          // 排除浏览器特有文件夹（如 QUETTA 的 Quick Access），不同步这些文件夹
+          if (!EXCLUDED_FOLDERS.includes(node.title) && !isInExcludedFolder(oldPath) && !isInExcludedFolder(newPath)) {
+            await addPendingChange('folder_move', {
+              oldFolderPath,
+              newFolderPath,
+              title: node.title,
+            })
+          } else {
+            console.log(`[极客云签] 跳过排除文件夹的移动记录: ${oldFolderPath} -> ${newFolderPath}`)
+          }
         }
         break
       }

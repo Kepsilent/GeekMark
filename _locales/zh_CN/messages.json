@@ -851,5 +851,14 @@
   },
   "popup_totalBookmarks": {
     "message": "书签总数"
+  },
+  "excludedFolders_title": {
+    "message": "同步排除文件夹"
+  },
+  "excludedFolders_desc": {
+    "message": "以下浏览器特有文件夹将不会被同步，以避免同步冲突："
+  },
+  "excludedFolders_quickAccess": {
+    "message": "Quick Access（QUETTA 浏览器快速访问）"
   }
 }

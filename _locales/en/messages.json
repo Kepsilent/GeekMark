@@ -851,5 +851,14 @@
   },
   "popup_totalBookmarks": {
     "message": "Total Bookmarks"
+  },
+  "excludedFolders_title": {
+    "message": "Excluded Folders"
+  },
+  "excludedFolders_desc": {
+    "message": "The following browser-specific folders will not be synced to avoid conflicts:"
+  },
+  "excludedFolders_quickAccess": {
+    "message": "Quick Access (QUETTA browser)"
   }
 }
