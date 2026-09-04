@@ -1086,7 +1086,22 @@ function findFolderByPath(tree, folderPath) {
     }
     return null
   }
-  return find(tree, 0)
+  // 新格式：路径不包含根目录名称（书签栏/其他书签）
+  // 先在根节点的子节点（书签栏/其他书签）的子节点中查找
+  const rootNodes = Array.isArray(tree) ? tree : [tree]
+  for (const root of rootNodes) {
+    if (root.children) {
+      for (const bookmarkRoot of root.children) {
+        if (bookmarkRoot.children) {
+          const result = find(bookmarkRoot.children, 0)
+          if (result) return result
+        }
+      }
+    }
+  }
+  // 兼容旧格式：路径包含根目录名称（书签栏/其他书签）
+  // 从完整树开始查找
+  return find(rootNodes, 0)
 }
 
 /**
@@ -1751,20 +1766,24 @@ async function getFolderPath(parentId) {
   try {
     const tree = await chrome.bookmarks.getTree()
     const path = []
-    function find(node, targetId, currentPath) {
+    // depth: 0=根节点, 1=书签栏/其他书签, 2+=用户创建的文件夹
+    // 深度小于2的节点不加入路径（根节点和书签栏/其他书签是同步根，不应该出现在路径中）
+    function find(node, targetId, currentPath, depth) {
       if (node.id === targetId) {
         path.push(...currentPath)
         return true
       }
       if (node.children) {
         for (const child of node.children) {
-          if (find(child, targetId, [...currentPath, node.title])) return true
+          // 深度 >= 2 才把节点标题加入路径（跳过根节点和书签栏/其他书签）
+          const newPath = depth >= 2 ? [...currentPath, node.title] : currentPath
+          if (find(child, targetId, newPath, depth + 1)) return true
         }
       }
       return false
     }
     for (const root of tree) {
-      if (find(root, parentId, [])) break
+      if (find(root, parentId, [], 0)) break
     }
     return path.filter(p => p).join('/')
   } catch (e) {
